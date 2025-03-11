@@ -2,16 +2,6 @@
 
 This repository contains the official documentation for Intersend, a comprehensive platform providing powerful tools for building web3 applications and managing blockchain interactions.
 
-## About Intersend
-
-Intersend offers a comprehensive set of tools for web3 developers, including:
-
-- **Authentication Solutions**: Web3 authentication providers and integrations
-- **Wallet Integrations**: WalletConnect, RainbowKit, and custom solutions
-- **Wallet-as-a-Service**: Build and deploy custom wallet solutions
-- **Application Building Tools**: Various integration options for web3 apps
-- **Developer Resources**: Code examples, implementation guides, and best practices
-
 ## Documentation Website
 
 This documentation is built using [Vocs](https://vocs.dev), a modern documentation framework.
