@@ -1,0 +1,126 @@
+---
+title: 'Integrating Intersend Wallet with RainbowKit'
+description: 'Add Intersend Wallet to your RainbowKit configuration for seamless integration.'
+---
+
+<img
+  className="block dark:hidden"
+  src="https://intersend-content-s3-bucket.s3.amazonaws.com/rainbowuikit-intersend.png"
+  alt="Intersend and RainbowKit Integration"
+/>
+<img
+  className="hidden dark:block"
+  src="https://intersend-content-s3-bucket.s3.amazonaws.com/rainbowuikit-intersend.png"
+  alt="Intersend and RainbowKit Integration"
+/>
+
+## Introduction
+
+If your company is using [RainbowKit](https://www.rainbowkit.com/), we have a convenient way to integrate Intersend Wallet. By simply adding a new file with our custom wallet configuration and updating the RainbowKit configuration, you can enable seamless wallet integration for your users.
+
+## Prerequisites
+
+- Ensure that Polygon is included in the "chains" in your wagmi.ts. If Polygon is not accepted, please contact [hello@intersend.io](mailto:hello@intersend.io) for further details about how to add custom authentication within RainbowKit. However, please note that Intersend supports transactions on any chain, not just Polygon.
+
+## Adding Intersend Wallet
+
+### Step 1: Create the Intersend Wallet File
+
+Create a new file in the same directory where `wagmi.ts` is located. Name this file `intersend-wallet.ts` and add the following code:
+
+```typescript
+import { Wallet, getWalletConnectConnector } from '@rainbow-me/rainbowkit';
+
+export interface IntersendWalletOptions {
+  projectId: string;
+}
+
+export const IntersendWallet = ({ projectId }: IntersendWalletOptions): Wallet => ({
+  id: 'intersend',
+  name: 'Intersend',
+  iconUrl: 'https://intersend-content-s3-bucket.s3.us-east-1.amazonaws.com/intersend-rounded-no-background.jpg',
+  iconBackground: '#6b8cfe',
+  downloadUrls: {
+    qrCode: 'https://intersend-content-s3-bucket.s3.us-east-1.amazonaws.com/styled_qr_with_logo.png',
+  },
+  mobile: {
+    getUri: (uri: string) => {
+      console.log('WalletConnect URI (mobile):', uri);
+      window.parent.postMessage({ type: 'walletconnect_uri', uri }, '*'); // Post message to parent
+      return uri;
+    },
+  },
+  qrCode: {
+    getUri: (uri: string) => {
+      console.log('WalletConnect URI (QR code):', uri);
+      window.parent.postMessage({ type: 'walletconnect_uri', uri }, '*'); // Post message to parent
+      return uri;
+    },
+    instructions: {
+      learnMoreUrl: 'https://app.intersend.io',
+      steps: [
+        {
+          description: 'Create your non-custodial wallet with a single email.',
+          step: 'install',
+          title: 'Sign-up to Intersend',
+        },
+        {
+          description: 'Use Intersend\'s app store to instantly connect your wallet into this app.',
+          step: 'connect',
+          title: 'Open this app on InterSpace',
+        },
+      ],
+    },
+  },
+  createConnector: getWalletConnectConnector({ projectId }),
+});
+```
+
+### Step 2: Update the RainbowKit Configuration
+
+In your `wagmi.ts` file, add the following code to integrate the Intersend Wallet:
+
+1. Import the Intersend Wallet:
+
+```typescript
+import { IntersendWallet } from './intersend-wallet';
+import { connectorsForWallets } from '@rainbow-me/rainbowkit';
+import { polygon } from 'wagmi/chains';
+```
+
+2. Add the Intersend Wallet to the connectors:
+
+```typescript
+const connectors = connectorsForWallets(
+  [
+    {
+      groupName: 'Recommended',
+      wallets: [IntersendWallet],
+    },
+  ],
+  {
+    appName: 'Intersend',
+    projectId: '936ce227c0152a29bdeef7d68794b0ac',
+  }
+);
+```
+
+3. Ensure Polygon is included in the chains and transports:
+
+```typescript
+export const config = createConfig({
+  connectors: connectors, // Add the connectors configuration
+  chains: [mainnet, polygon], // Ensure Polygon is included in the chains
+  transports: {
+    [mainnet.id]: http(),
+    [polygon.id]: http(), // Ensure Polygon transport is configured
+  },
+  ssr: true,
+});
+```
+
+After this step, please reach out to us at [hello@intersend.io](mailto:hello@intersend.io) to get your app listed on InterSpace.
+
+### Conclusion
+
+By following these steps, you can integrate the Intersend Wallet with your RainbowKit configuration, providing a seamless wallet experience for your users. If you encounter any issues or have further questions, please contact [hello@intersend.io](mailto:hello@intersend.io).

@@ -1,0 +1,130 @@
+---
+title: 'Images and Media'
+description: 'How to add images, diagrams, and other media to your documentation'
+layout: docs
+showSidebar: true
+---
+
+# Images and Media
+
+Adding visual elements to your documentation can significantly improve comprehension and user engagement. This guide shows how to add images, diagrams, and other media to your Intersend documentation.
+
+## Adding Images
+
+Images in Vocs documentation can be added using standard Markdown syntax or through HTML/JSX for more control.
+
+### Basic Image Syntax
+
+```md
+![Alt text](/path/to/image.png)
+```
+
+### Placing Images in Your Documentation
+
+1. Place your images in the `public/images` directory
+2. Reference them using paths relative to the public directory:
+
+```md
+![Intersend Wallet Interface](/images/wallet-interface.png)
+```
+
+### Styled Images
+
+For more control over image display, you can use HTML with styling:
+
+```jsx
+<img 
+  src="/images/diagram.png" 
+  alt="Architecture Diagram" 
+  style={{ 
+    maxWidth: '100%',
+    borderRadius: '8px',
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+  }} 
+/>
+```
+
+## Image Captions
+
+Add captions below your images for additional context:
+
+```jsx
+<figure>
+  <img src="/images/transaction-flow.png" alt="Transaction Flow Diagram" />
+  <figcaption>Fig 1: Flow of a transaction through the Intersend network</figcaption>
+</figure>
+```
+
+## Diagrams
+
+You can add diagrams using Mermaid syntax for flowcharts, sequence diagrams, and more:
+
+```mermaid
+graph TD
+    A[User] -->|Signs Transaction| B[Intersend SDK]
+    B -->|Submits to| C[Relay Network]
+    C -->|Broadcasts to| D[Blockchain]
+    D -->|Confirms| E[Transaction Complete]
+    E -->|Notifies| A
+```
+
+## Responsive Images
+
+For images that should scale with viewport size:
+
+```jsx
+<div style={{ maxWidth: '100%', overflow: 'auto' }}>
+  <img 
+    src="/images/large-diagram.png" 
+    alt="Network Architecture" 
+    style={{ width: '100%', maxWidth: '800px' }} 
+  />
+</div>
+```
+
+## Dark and Light Mode Images
+
+For different images based on color scheme:
+
+```jsx
+<>
+  <img 
+    className="block dark:hidden" 
+    src="/images/light-mode.png" 
+    alt="Light mode diagram" 
+  />
+  <img 
+    className="hidden dark:block" 
+    src="/images/dark-mode.png" 
+    alt="Dark mode diagram" 
+  />
+</>
+```
+
+## Asset Organization
+
+Keep your images organized using a logical structure:
+
+```
+public/
+└── images/
+    ├── logos/
+    │   ├── intersend-logo.svg
+    │   └── partner-logos/
+    ├── diagrams/
+    │   ├── architecture.png
+    │   └── flow-charts/
+    ├── screenshots/
+    │   ├── dashboard.png
+    │   └── wallet-view.png
+    └── icons/
+        └── file-types/
+```
+
+## Image Best Practices
+
+1. **Optimize image sizes** before adding them to documentation
+2. **Use SVG** for logos and icons when possible
+3. **Provide meaningful alt text** for accessibility
+4. **Keep a consistent style** across diagrams and screenshots
+5. **Use proper resolution** images (2x for high-DPI displays)

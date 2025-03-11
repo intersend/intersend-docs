@@ -1,0 +1,78 @@
+---
+title: 'Dynamic Integration'
+description: 'Add your Dynamic-powered app to Intersend.'
+layout: docs
+showSidebar: true
+---
+
+# Dynamic Integration
+
+## Prerequisite
+
+- Your existing web app is powered by [Dynamic](https://dynamic.xyz) for authentication and embedded wallet management.
+
+## Integration Steps
+
+### 1. Install Intersend EVM Wallet Connector
+
+Install the Dynamic Intersend EVM wallet connector with the following command:
+
+For Dynamic v3:
+```bash
+npm install @dynamic-labs-connectors/intersend-evm@3.2.4
+# or
+yarn add @dynamic-labs-connectors/intersend-evm@3.2.4
+```
+
+For Dynamic v4:
+```bash
+npm install @dynamic-labs-connectors/intersend-evm@4.0.0
+# or
+yarn add @dynamic-labs-connectors/intersend-evm@4.0.0
+```
+
+### 2. Import the Intersend Connector
+
+In your project import the IntersendEvmWalletConnectors:
+
+```tsx
+import { IntersendEvmWalletConnectors } from '@dynamic-labs-connectors/intersend-evm';
+```
+
+### 3. Configure Dynamic Provider
+
+Add the Intersend EVM wallet connector to your DynamicContextProvider:
+
+```tsx
+<DynamicContextProvider
+  settings={{
+    walletConnectors: [EthereumWalletConnectors, IntersendEvmWalletConnectors]
+  }}
+>
+  {/* Your app code here */}
+</DynamicContextProvider>
+```
+
+### 4. Whitelist Intersend Domain
+
+Add Intersend domains to your Dynamic dashboard's allowed origins:
+- https://app.intersend.io
+- https://intersend.io
+
+[Configure Allowed Origins →](https://docs.dynamic.xyz/developer-dashboard/security#adding-an-origin)
+
+### 5. Verify App Behavior Inside Intersend
+
+1. **Open [Sandbox](https://app.intersend.io/apps/sandbox)** and paste your web app's URL into the address bar of the Intersend browser.
+2. **Auto-connect** should kick in; Intersend will inject the user's wallet data into your app.
+3. **Test transaction or signing flows** to confirm everything relays properly.
+
+### 6. Get Listed
+
+Once integrated submit your app for review:
+- Email: hello@intersend.io
+- Telegram: @erturkarda
+
+## Need Help?
+
+- [Contact Intersend Support](mailto:hello@intersend.io)

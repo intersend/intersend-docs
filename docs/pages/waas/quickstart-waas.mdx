@@ -1,0 +1,186 @@
+---
+title: 'Quickstart'
+description: 'Get started with Intersend integration for wallets'
+layout: docs
+showSidebar: true
+---
+
+# WaaS Quickstart Guide
+
+> **Tip:** See our [complete wallet implementation on Github](https://github.com/intersend/demo-wallet) for a production-ready example of integrating Intersend apps into a wallet.
+
+## 1. Install the SDK
+```bash
+npm install universal-portability
+```
+
+## 2. Set Up Provider
+Wrap your application with the UniversalPortabilityProvider:
+
+```javascript
+import { UniversalPortabilityProvider } from 'universal-portability';
+
+function App() {
+  return (
+    <WagmiProvider config={wagmiConfig}>
+      <UniversalPortabilityProvider>
+        {/* Your app */}
+      </UniversalPortabilityProvider>
+    </WagmiProvider>
+  );
+}
+```
+
+## 3. Implement Message Handlers
+
+Your wallet needs to listen for events from Intersend—such as requests to connect, sign a message, or approve a transaction.
+
+Create these two hooks to handle communication between your wallet and embedded dApps:
+
+### src/hooks/useMessageHandler.ts
+
+```typescript
+import { useEffect } from 'react';
+import { useUniversalPortability } from 'universal-portability';
+import { sendTransaction, signMessage } from '@wagmi/core';
+import { config } from '../wagmi';
+import { hexToString } from 'viem';
+
+export interface MessageHandlerConfig {
+  walletAddress: string;
+  chainId: number;
+}
+
+export function useMessageHandler({ walletAddress, chainId }: MessageHandlerConfig) {
+  const { sendMessageToIFrame } = useUniversalPortability();
+
+  useEffect(() => {
+    const handleMessage = async (event: MessageEvent) => {
+      const { type, payload, requestId } = event.data;
+
+      try {
+        switch (type) {
+          case 'INTERSEND_CONNECT_REQUEST':
+            sendMessageToIFrame(
+              {
+                type: 'INTERSEND_CONNECT_RESPONSE',
+                payload: {
+                  address: walletAddress,
+                  chainId,
+                  isConnected: true
+                }
+              }
+            );
+            break;
+
+          case 'SIGN_MESSAGE_REQUEST':
+            // Handle message signing
+            break;
+
+          case 'TRANSACTION_REQUEST':
+            // Handle transaction requests
+            break;
+        }
+      } catch (error: any) {
+        // Error handling
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [walletAddress, chainId, sendMessageToIFrame]);
+}
+```
+
+### src/hooks/usePortHandler.ts
+
+```typescript
+import { useAccount, useChainId } from 'wagmi';
+import { useMessageHandler } from './useMessageHandler';
+
+export function usePortHandler() {
+  const { address } = useAccount();
+  const chainId = useChainId();
+
+  useMessageHandler({
+    walletAddress: address!,
+    chainId: chainId!
+  });
+
+  return {
+    isReady: Boolean(address && chainId)
+  };
+}
+```
+
+## 4. Create dApp Store Container
+
+Intersend can serve as your "dApp store" aggregator. You can display all available apps, letting users pick which to launch. For instance:
+
+```typescript
+import { Port, usePortableApps } from 'universal-portability';
+
+function DAppStoreContainer() {
+  const { apps } = usePortableApps(); // array of dApp metadata
+
+  return (
+    <div className="dapp-grid">
+      {apps.map(app => (
+        <div key={app.id} className="dapp-card">
+          <img src={app.logo} alt={app.name} />
+          <h3>{app.name}</h3>
+          <button onClick={() => navigateToApp(app)}>
+            Launch {app.name}
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+## 5. Render dApp Interface
+
+When the user selects a dApp, you embed it:
+
+```typescript
+import { Port } from 'universal-portability';
+import { useAccount, useChainId } from 'wagmi';
+
+import { usePortHandler } from '../hooks/usePortHandler';
+
+function AppContainer({ app }) {
+  const rpcURL = process.env.RPC_URL;
+  const { address } = useAccount();
+
+  // enable postMessage communication
+  usePortHandler();
+
+  return (
+    <Port
+      src={`https://app.intersend.io/apps/${app.slug}`}
+      address={address}
+      rpcUrl={rpcURL}
+      height="400px"
+      width="800px"
+    />
+  );
+}
+```
+
+## Message Protocol
+
+The SDK uses a secure postMessage protocol with these main events:
+
+- `INTERSEND_CONNECT_REQUEST`: Initial wallet connection request
+- `SIGN_MESSAGE_REQUEST`: Request to sign a message
+- `TRANSACTION_REQUEST`: Request to send a transaction
+- `SWITCH_CHAIN_REQUEST`: Request to switch chain
+- `*_RESPONSE`: Corresponding response events
+
+All sensitive operations (signing, approvals) are handled by your wallet's existing security infrastructure, ensuring a safe and consistent user experience.
+
+## Contact Us
+
+- Email: hello@intersend.io
+- Telegram: @erturkarda

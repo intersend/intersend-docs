@@ -1,0 +1,59 @@
+---
+title: 'Safe Integration'
+description: 'Add your Safe App to Intersend.'
+layout: docs
+showSidebar: true
+---
+
+# Safe Integration
+
+## Prerequisite
+
+- Your dApp uses **Wagmi** for wallet interactions.
+- If using an auth provider (e.g. Privy, Dynamic) refer to its dedicated Intersend guide.
+
+## Integration Steps (Wagmi + Safe Example)
+
+Below is the most common scenario: **you already use Wagmi** and need to ensure the Safe Connector is present so Intersend can auto-connect. If your app relies on Privy or Dynamic for auth, please see those guides.
+
+### 1. Add (or Confirm) Safe Connector
+
+Add the Safe connector to your Wagmi config. If your app already uses the Safe connector, you can skip this step.
+
+```ts
+import { createConfig, http } from 'wagmi'
+import { mainnet, sepolia, polygon } from 'wagmi/chains'
+import { createClient } from 'viem'
+import { safe } from 'wagmi/connectors'
+
+export const config = createConfig({
+  chains: [mainnet, sepolia, polygon],
+  connectors: [
+    safe() // Add Safe connector
+    // other connectors...
+  ],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+    [polygon.id]: http(),
+  },
+})
+```
+
+### 2. Verify Integration
+
+Once your app has the Safe connector configured:
+
+1. **Test in [Sandbox](https://app.intersend.io/apps/sandbox)** - Load your app URL in the Intersend sandbox environment
+2. **Auto-connect** should happen automatically - Intersend detects Safe connector and injects wallet data
+3. **Test key functions** - Ensure signing requests and transactions work properly
+
+### 3. Get Listed
+
+Once integrated, submit your app for review:
+- Email: hello@intersend.io
+- Telegram: @erturkarda
+
+## Need Help?
+
+- [Contact Intersend Support](mailto:hello@intersend.io)

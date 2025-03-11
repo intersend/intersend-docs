@@ -1,0 +1,85 @@
+---
+title: 'Overview - For Auth Providers'
+description: 'Make your ecosystem apps instantly embeddable'
+layout: docs
+showSidebar: true
+---
+
+# Auth Providers Overview
+
+> **This guide is for you if:**
+> 
+> You provide authentication/wallet management infrastructure (e.g Privy, Dynamic) and want to:
+> - Make client apps portable across Web3 interfaces (Worlcoin, Frames, Telegram, Safe)
+> - Offer embeddable apps as a value-add feature
+> - Expand ecosystem reach without additional work
+
+Turn every app using your SDK into an embeddable component for Intersend-integrated wallets and platforms.
+
+## Integration Benefits
+
+- **Ecosystem Growth**
+  Client apps become instantly available to all Intersend partner wallets
+- **Zero Client Changes**
+  Add Intersend connector at SDK layer - no app modifications needed
+- **Universal Compatibility**
+  Works with any partner wallet - making it easy to integrate apps with a few lines of code
+
+---
+
+## How It Works
+
+Below is a simplified flow describing how an app (built with your auth SDK) interacts with a user's wallet through Intersend.
+
+## Example
+
+1. A wallet infrastructure provider (let's call this CoinPace Wallet) uses Intersend SDK to add "App X" into their explore page. *App X is built with your authentication SDK.*
+
+2. Users click App X within CoinPace Wallet's interface. The app loads in an iframe.
+
+3. Your Authentication SDK automatically injects Intersend's connector to App X at initial page load.
+
+4. Intersend's iframe middleware facilitates sharing user's account with the app and automatically connects to it with SIWE (Sign in with Ethereum)
+
+5. When transactions occur:
+   1. App X constructs transaction data
+   2. Intersend relays payload to CoinPace Wallet
+   3. User approves/declines in native wallet UI
+   4. Result propagates back to the app
+
+### End Result
+- The app is fully functional automatically connected to the user's wallet/account
+- Transactions signatures chain switching etc. flow through Intersend's secure layer
+
+## Flow Diagram
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Wallet as Wallet
+    participant Intersend as Intersend
+    participant App as dApp
+
+
+    Note over User,Wallet: Load & Browse Apps
+    User->>Wallet: Opens Explore Tab of the Wallet
+    Wallet->>Intersend: Fetch list of available apps
+    Intersend-->>Wallet: Returns app list
+
+    Note over User,App: Launch Selected App
+    User->>Wallet: Selects an app
+    Wallet->>Intersend: Loads app in iframe
+    Intersend->>App: Wraps dApp within Intersend interface
+    Intersend->>Wallet: REQUEST_WALLET_INFO
+    Intersend->>App: WALLET_INFO (address chainId)
+
+    Note over User,App: Transaction Flow
+    User->>App: Initiates transaction (e.g. purchase swap)
+    App->>Intersend: eth_sendTransaction (RPC request)
+    Intersend->>Wallet: Constructs and sends tx data
+    Wallet->>User: Prompts user to approve transaction
+    User->>Wallet: Approves
+    Wallet->>Wallet: Signs & broadcasts to blockchain
+    Wallet->>Intersend: Returns txHash (RPC response)
+    Intersend->>App: Send success or fail
+    App-->>User: Shows success/fail message

@@ -1,0 +1,97 @@
+---
+title: 'Overview - For Wallets & WaaS'
+description: 'Embed and manage dApps without maintenance overhead'
+layout: docs
+showSidebar: true
+---
+
+# Wallets & WaaS Overview
+
+> **This guide is for you if:**
+> 
+> You provide wallet infrastructure (MPC, custodial, non-custodial) (e.g., UniversalX, MetaMask, Phantom) and want to:
+> - Offer curated dApps without maintaining it yourself
+> - Keep full control over security and UX
+> - Automatically integrate new apps added to Intersend
+
+## Demo
+
+See a demo of an Intersend-powered wallet:
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/tb8bpSt_qAY?si=CrAPF8gv57AiUIkd"
+  title="YouTube video player"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+></iframe>
+
+[Github Repo](https://github.com/intersend/demo-wallet)
+
+Turn your wallet into a Web3 gateway using Intersend's universal connector. Embed dApps directly into your interface while maintaining full control over security and user experience.
+
+## Why Intersend?
+
+- **Zero Maintenance**
+  New apps become automatically available to your users - no integration work required
+- **Security First**
+  All transactions use your existing signing infrastructure - keys never leave your environment
+- **Customizable Curation**
+  Choose which apps to display and control their presentation
+
+---
+
+## How It Works
+
+Under the hood, Intersend provides an iframe-based connector that mediates communication between your wallet and apps available on Intersend. Your wallet remains in control of signing, transaction approvals, and chain selection while Intersend relays messages securely via `postMessage`.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Wallet as Wallet
+    participant Intersend as Intersend
+    participant App as dApp
+
+    Note over User,Wallet: Load & Browse Apps
+    User->>Wallet: Opens Explore Tab of the Wallet
+    Wallet->>Intersend: Fetch list of available apps
+    Intersend-->>Wallet: Returns app list
+
+    Note over User,App: Launch Selected App
+    User->>Wallet: Selects an app
+    Wallet->>Intersend: Loads app in iframe
+    Intersend->>App: Wraps the app within Intersend interface
+    Intersend->>Wallet: REQUEST_WALLET_INFO
+    Intersend->>App: WALLET_INFO (address chainId)
+
+    Note over User,App: Transaction Flow
+    User->>App: Initiates transaction (e.g. purchase swap)
+    App->>Intersend: eth_sendTransaction (RPC request)
+    Intersend->>Wallet: Constructs and sends tx data
+    Wallet->>User: Prompts user to approve transaction
+    User->>Wallet: Approves
+    Wallet->>Wallet: Signs & broadcasts to blockchain
+    Wallet->>Intersend: Returns txHash (RPC response)
+    Intersend->>App: Send success or fail
+    App-->>User: Shows success/fail message
+```
+
+## Security Architecture
+
+The SDK implements a secure messaging protocol between the embedded app and your wallet:
+
+- **Isolated Iframes:**
+  All third-party dApps are sandboxed within an iframe managed by Intersend. This prevents unauthorized access to your code or your users' private keys.
+
+- **No Private Key Exposure:**
+  Any signature or transaction request is forwarded to your wallet's internal signing logic. Keys never leave your environment.
+
+- **Origin Validation:**
+  The Intersend SDK verifies the origin of incoming messages. Suspicious or unknown sources are ignored.
+
+## Contact Us
+
+- Email: hello@intersend.io
+- Telegram: @erturkarda

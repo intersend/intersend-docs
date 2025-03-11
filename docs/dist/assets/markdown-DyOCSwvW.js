@@ -1,0 +1,46 @@
+import{u as t,j as e}from"./index-BPPGhjdf.js";const r={title:"Markdown Syntax",description:"Text title and styling in standard markdown",layout:"docs",showSidebar:!0};function n(i){const s={a:"a",blockquote:"blockquote",code:"code",del:"del",div:"div",em:"em",h1:"h1",h2:"h2",h3:"h3",header:"header",p:"p",pre:"pre",span:"span",strong:"strong",table:"table",tbody:"tbody",td:"td",th:"th",thead:"thead",tr:"tr",...t(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(s.header,{children:e.jsxs(s.h1,{id:"markdown-syntax",children:["Markdown Syntax",e.jsx(s.a,{"aria-hidden":"true",tabIndex:"-1",href:"#markdown-syntax",children:e.jsx(s.div,{"data-autolink-icon":!0})})]})}),`
+`,e.jsxs(s.h2,{id:"titles",children:["Titles",e.jsx(s.a,{"aria-hidden":"true",tabIndex:"-1",href:"#titles",children:e.jsx(s.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsx(s.p,{children:"Best used for section headers."}),`
+`,e.jsx(e.Fragment,{children:e.jsx(s.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsx(s.code,{children:e.jsx(s.span,{className:"line",children:e.jsx(s.span,{style:{color:"#005CC5",fontWeight:"bold","--shiki-dark":"#6CB6FF","--shiki-dark-font-weight":"bold"},children:"## Titles"})})})})}),`
+`,e.jsxs(s.h3,{id:"subtitles",children:["Subtitles",e.jsx(s.a,{"aria-hidden":"true",tabIndex:"-1",href:"#subtitles",children:e.jsx(s.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsx(s.p,{children:"Best used for subsection headers."}),`
+`,e.jsx(e.Fragment,{children:e.jsx(s.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsx(s.code,{children:e.jsx(s.span,{className:"line",children:e.jsx(s.span,{style:{color:"#005CC5",fontWeight:"bold","--shiki-dark":"#6CB6FF","--shiki-dark-font-weight":"bold"},children:"### Subtitles"})})})})}),`
+`,e.jsxs(s.blockquote,{children:[`
+`,e.jsxs(s.p,{children:[e.jsx(s.strong,{children:"Tip:"})," Each ",e.jsx(s.strong,{children:"title"})," and ",e.jsx(s.strong,{children:"subtitle"})," creates an anchor and also shows up on the table of contents on the right."]}),`
+`]}),`
+`,e.jsxs(s.h2,{id:"text-formatting",children:["Text Formatting",e.jsx(s.a,{"aria-hidden":"true",tabIndex:"-1",href:"#text-formatting",children:e.jsx(s.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(s.p,{children:["We support most markdown formatting. Simply add ",e.jsx(s.code,{children:"**"}),", ",e.jsx(s.code,{children:"_"}),", or ",e.jsx(s.code,{children:"~"})," around text to format it."]}),`
+`,e.jsxs(s.table,{children:[e.jsx(s.thead,{children:e.jsxs(s.tr,{children:[e.jsx(s.th,{children:"Style"}),e.jsx(s.th,{children:"How to write it"}),e.jsx(s.th,{children:"Result"})]})}),e.jsxs(s.tbody,{children:[e.jsxs(s.tr,{children:[e.jsx(s.td,{children:"Bold"}),e.jsx(s.td,{children:e.jsx(s.code,{children:"**bold**"})}),e.jsx(s.td,{children:e.jsx(s.strong,{children:"bold"})})]}),e.jsxs(s.tr,{children:[e.jsx(s.td,{children:"Italic"}),e.jsx(s.td,{children:e.jsx(s.code,{children:"_italic_"})}),e.jsx(s.td,{children:e.jsx(s.em,{children:"italic"})})]}),e.jsxs(s.tr,{children:[e.jsx(s.td,{children:"Strikethrough"}),e.jsx(s.td,{children:e.jsx(s.code,{children:"~strikethrough~"})}),e.jsx(s.td,{children:e.jsx(s.del,{children:"strikethrough"})})]})]})]}),`
+`,e.jsxs(s.p,{children:["You can combine these. For example, write ",e.jsx(s.code,{children:"**_bold and italic_**"})," to get ",e.jsx(s.strong,{children:e.jsx(s.em,{children:"bold and italic"})})," text."]}),`
+`,e.jsxs(s.p,{children:["You need to use HTML to write superscript and subscript text. That is, add ",e.jsx(s.code,{children:"<sup>"})," or ",e.jsx(s.code,{children:"<sub>"})," around your text."]}),`
+`,e.jsxs(s.table,{children:[e.jsx(s.thead,{children:e.jsxs(s.tr,{children:[e.jsx(s.th,{children:"Text Size"}),e.jsx(s.th,{children:"How to write it"}),e.jsx(s.th,{children:"Result"})]})}),e.jsxs(s.tbody,{children:[e.jsxs(s.tr,{children:[e.jsx(s.td,{children:"Superscript"}),e.jsx(s.td,{children:e.jsx(s.code,{children:"<sup>superscript</sup>"})}),e.jsx(s.td,{children:e.jsx("sup",{children:"superscript"})})]}),e.jsxs(s.tr,{children:[e.jsx(s.td,{children:"Subscript"}),e.jsx(s.td,{children:e.jsx(s.code,{children:"<sub>subscript</sub>"})}),e.jsx(s.td,{children:e.jsx("sub",{children:"subscript"})})]})]})]}),`
+`,e.jsxs(s.h2,{id:"linking-to-pages",children:["Linking to Pages",e.jsx(s.a,{"aria-hidden":"true",tabIndex:"-1",href:"#linking-to-pages",children:e.jsx(s.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(s.p,{children:["You can add a link by wrapping text in ",e.jsx(s.code,{children:"[]()"}),". You would write ",e.jsx(s.code,{children:"[link to google](https://google.com)"})," to ",e.jsx(s.a,{href:"https://google.com",children:"link to google"}),"."]}),`
+`,e.jsxs(s.p,{children:["Links to pages in your docs need to be root-relative. Basically, you should include the entire folder path. For example, ",e.jsx(s.code,{children:"[link to code examples](/essentials/code)"}),' links to the page "Code Examples" in our essentials section.']}),`
+`,e.jsxs(s.p,{children:["Relative links like ",e.jsx(s.code,{children:"[link to text](../text)"})," will open slower because they cannot be optimized as easily."]}),`
+`,e.jsxs(s.h2,{id:"blockquotes",children:["Blockquotes",e.jsx(s.a,{"aria-hidden":"true",tabIndex:"-1",href:"#blockquotes",children:e.jsx(s.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(s.h3,{id:"singleline",children:["Singleline",e.jsx(s.a,{"aria-hidden":"true",tabIndex:"-1",href:"#singleline",children:e.jsx(s.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(s.p,{children:["To create a blockquote, add a ",e.jsx(s.code,{children:">"})," in front of a paragraph."]}),`
+`,e.jsxs(s.blockquote,{children:[`
+`,e.jsx(s.p,{children:"Dorothy followed her through many of the beautiful rooms in her castle."}),`
+`]}),`
+`,e.jsx(e.Fragment,{children:e.jsx(s.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsx(s.code,{children:e.jsx(s.span,{className:"line",children:e.jsx(s.span,{style:{color:"#22863A","--shiki-dark":"#8DDB8C"},children:"> Dorothy followed her through many of the beautiful rooms in her castle."})})})})}),`
+`,e.jsxs(s.h3,{id:"multiline",children:["Multiline",e.jsx(s.a,{"aria-hidden":"true",tabIndex:"-1",href:"#multiline",children:e.jsx(s.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsxs(s.blockquote,{children:[`
+`,e.jsx(s.p,{children:"Dorothy followed her through many of the beautiful rooms in her castle."}),`
+`,e.jsx(s.p,{children:"The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood."}),`
+`]}),`
+`,e.jsx(e.Fragment,{children:e.jsx(s.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(s.code,{children:[e.jsx(s.span,{className:"line",children:e.jsx(s.span,{style:{color:"#22863A","--shiki-dark":"#8DDB8C"},children:"> Dorothy followed her through many of the beautiful rooms in her castle."})}),`
+`,e.jsx(s.span,{className:"line",children:e.jsx(s.span,{style:{color:"#22863A","--shiki-dark":"#8DDB8C"},children:">"})}),`
+`,e.jsx(s.span,{className:"line",children:e.jsx(s.span,{style:{color:"#22863A","--shiki-dark":"#8DDB8C"},children:"> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood."})})]})})}),`
+`,e.jsxs(s.h2,{id:"math-expressions",children:["Math Expressions",e.jsx(s.a,{"aria-hidden":"true",tabIndex:"-1",href:"#math-expressions",children:e.jsx(s.div,{"data-autolink-icon":!0})})]}),`
+`,e.jsx(s.p,{children:"You can include mathematical expressions using standard Markdown math syntax with dollar signs:"}),`
+`,e.jsx(s.p,{children:"Inline math: $E = mc^2$"}),`
+`,e.jsx(e.Fragment,{children:e.jsx(s.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsx(s.code,{children:e.jsx(s.span,{className:"line",children:e.jsx(s.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"Inline math: $E = mc^2$"})})})})}),`
+`,e.jsx(s.p,{children:"Block math:"}),`
+`,e.jsx(s.p,{children:`$$
+E = mc^2
+$$`}),`
+`,e.jsx(e.Fragment,{children:e.jsx(s.pre,{className:"shiki shiki-themes github-light github-dark-dimmed",style:{backgroundColor:"#fff","--shiki-dark-bg":"#22272e",color:"#24292e","--shiki-dark":"#adbac7"},tabIndex:"0",children:e.jsxs(s.code,{children:[e.jsx(s.span,{className:"line",children:e.jsx(s.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"$$"})}),`
+`,e.jsx(s.span,{className:"line",children:e.jsx(s.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"E = mc^2"})}),`
+`,e.jsx(s.span,{className:"line",children:e.jsx(s.span,{style:{color:"#24292E","--shiki-dark":"#ADBAC7"},children:"$$"})})]})})})]})}function l(i={}){const{wrapper:s}={...t(),...i.components};return s?e.jsx(s,{...i,children:e.jsx(n,{...i})}):n(i)}export{l as default,r as frontmatter};

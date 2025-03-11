@@ -1,0 +1,139 @@
+---
+title: 'Development Guide'
+description: 'Learn how to set up your development environment for Intersend'
+layout: docs
+showSidebar: true
+---
+
+# Development Guide
+
+<div className="info-box">
+  **Prerequisite:** You should have installed Node.js (version 18.10.0 or higher).
+</div>
+
+## Setting Up Your Environment
+
+Follow these steps to set up your development environment for working with Intersend:
+
+### Step 1: Install Dependencies
+
+Start by installing the necessary dependencies:
+
+```bash
+# Install Intersend SDK
+npm install @intersend/sdk
+
+# Install additional development dependencies
+npm install @types/node typescript ts-node --save-dev
+```
+
+### Step 2: Configure TypeScript (if using TypeScript)
+
+Create a `tsconfig.json` file in your project root:
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "outDir": "dist",
+    "declaration": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
+```
+
+### Step 3: Create API Keys
+
+1. Register as an Intersend developer at [https://developer.intersend.io](https://developer.intersend.io)
+2. Create a new project and generate API keys
+3. Store your API keys securely using environment variables:
+
+```bash
+# Create a .env file (don't commit this to version control)
+echo "INTERSEND_API_KEY=your_api_key_here" > .env
+echo "INTERSEND_API_SECRET=your_api_secret_here" >> .env
+```
+
+## Development Workflow
+
+### Local Testing
+
+For local development and testing:
+
+```bash
+# Install development server
+npm install -g http-server
+
+# Start a local server
+http-server -p 8080
+```
+
+Your application will be available at `http://localhost:8080`.
+
+### Environment Variables
+
+Create an `.env.local` file for development-specific variables:
+
+```
+INTERSEND_API_KEY=your_development_api_key
+INTERSEND_ENVIRONMENT=testnet
+DEBUG=true
+```
+
+### Testing Transactions
+
+When testing transactions in development:
+
+1. Use testnet environments (Sepolia, Mumbai, etc.)
+2. Get test tokens from appropriate faucets
+3. Set lower confirmation requirements in your config:
+
+```javascript
+const devConfig = {
+  confirmations: 1,
+  networkId: 11155111, // Sepolia testnet
+  gaslessMode: true
+};
+```
+
+## Troubleshooting
+
+Here are solutions to common development issues:
+
+### Network Connectivity Issues
+
+If you're experiencing network connectivity problems:
+
+1. Verify your API keys are correct
+2. Check your RPC endpoint availability
+3. Ensure you're connected to the correct network
+4. Try using a different RPC provider
+
+### Transaction Failures
+
+For transaction-related issues:
+
+1. Ensure your wallet has sufficient funds (native token + gas)
+2. Verify contract addresses are correct for the network
+3. Check transaction parameters (gas, nonce, etc.)
+4. Enable debug logging for more information:
+
+```javascript
+const intersend = new Intersend({
+  debug: true,
+  logLevel: 'verbose'
+});
+```
+
+## Best Practices
+
+1. **Never hardcode API keys** - Use environment variables
+2. **Handle errors gracefully** - Implement proper error handling
+3. **Test on testnets first** - Always verify on testnets before production
+4. **Implement proper validation** - Validate all user inputs
+5. **Keep dependencies updated** - Regularly update SDK versions

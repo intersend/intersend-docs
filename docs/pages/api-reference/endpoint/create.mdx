@@ -1,0 +1,73 @@
+---
+title: 'Create Endpoint'
+description: 'API documentation for creating resources'
+layout: docs
+showSidebar: true
+---
+
+# Create Resource
+
+This endpoint allows you to create new resources in the Intersend platform.
+
+## Endpoint
+
+```
+POST /api/v1/resources
+```
+
+## Request Parameters
+
+| Parameter | Type   | Required | Description                |
+|-----------|--------|----------|----------------------------|
+| name      | string | Yes      | Name of the resource       |
+| type      | string | Yes      | Type of resource to create |
+| config    | object | No       | Resource configuration     |
+
+## Example Request
+
+```json
+POST /api/v1/resources
+Content-Type: application/json
+Authorization: Bearer YOUR_API_KEY
+
+{
+  "name": "My Resource",
+  "type": "wallet",
+  "config": {
+    "network": "ethereum",
+    "options": {
+      "gasless": true
+    }
+  }
+}
+```
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "res_8e7d4f2c1a",
+    "name": "My Resource",
+    "type": "wallet",
+    "created_at": "2025-03-11T09:41:37Z",
+    "status": "active",
+    "config": {
+      "network": "ethereum",
+      "options": {
+        "gasless": true
+      }
+    }
+  },
+  "error": null
+}
+```
+
+## Error Codes
+
+| Code              | Description                               |
+|-------------------|-------------------------------------------|
+| INVALID_PARAMS    | The request parameters are invalid        |
+| RESOURCE_EXISTS   | A resource with this name already exists  |
+| QUOTA_EXCEEDED    | Your account quota has been reached       |

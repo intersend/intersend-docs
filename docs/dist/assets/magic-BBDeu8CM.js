@@ -1,0 +1,1 @@
+import{u as r,j as n}from"./index-BPPGhjdf.js";const s={title:"Magic Integration",description:"Learn how to integrate your Magic-powered app with Intersend.",slug:"/magic"};function o(t){return n.jsx(n.Fragment,{})}function i(t={}){const{wrapper:e}={...r(),...t.components};return e?n.jsx(e,{...t,children:n.jsx(o,{...t})}):o()}export{i as default,s as frontmatter};

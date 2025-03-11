@@ -1,0 +1,59 @@
+import { defineConfig } from 'vocs'
+
+export default defineConfig({
+  title: 'Intersend',
+  description: 'Documentation for Intersend project',
+  logoUrl: {
+    light: '/images/Logo_white_version.svg',
+    dark: '/images/Logo_black_version.svg',
+  },
+  sidebar: [
+    {
+      text: 'Introduction',
+      link: '/'
+    },
+    {
+      text: 'Overview',
+      link: '/overview'
+    },
+    {
+      text: 'Apps - Get Listed',
+      collapsed: false,
+      items: [
+        { text: 'Overview', link: '/apps/overview' },
+        { text: 'Safe Integration', link: '/apps/safe' },
+        { text: 'Privy Integration', link: '/apps/privy' },
+        { text: 'Dynamic Integration', link: '/apps/dynamic' }
+      ]
+    },
+    {
+      text: 'Wallets - Add Apps',
+      collapsed: false,
+      items: [
+        { text: 'Overview', link: '/waas/overview-waas' },
+        { text: 'Quickstart', link: '/waas/quickstart-waas' }
+      ]
+    },
+    {
+      text: 'Auth - Make Apps Portable',
+      collapsed: false,
+      items: [
+        { text: 'Overview', link: '/auth-providers/overview-auth' },
+        { text: 'Integration', link: '/auth-providers/integration-auth' }
+      ]
+    }
+  ],
+  theme: {
+    accentColor: '#3B82F6'
+  },
+  topNav: [
+    {
+      text: 'Support',
+      link: 'mailto:hello@intersend.io'
+    },
+    {
+      text: 'Dashboard →',
+      link: 'https://app.intersend.io'
+    }
+  ]
+})
