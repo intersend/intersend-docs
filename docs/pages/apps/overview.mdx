@@ -1,46 +1,62 @@
 ---
-title: 'Apps Overview'
-description: 'Introduction to apps integration with Intersend'
+title: 'Overview - For App Developers'
+description: 'Distribute your dApp across Web3 wallets'
 layout: docs
 showSidebar: true
 ---
 
-# Apps Overview
+import { Callout } from 'vocs/components'
 
-Intersend provides seamless integration with various crypto applications through our Interspace marketplace. This section will guide you through the different app integrations available and how to use them effectively.
+# Overview - For Apps [Get your app listed on Intersend]
 
-## Available App Integrations
+<Callout type="info">
+  **This guide is for you if:**
 
-Intersend supports multiple app integrations that expand the functionality of your wallet:
+You’re building a dApp and want to:
 
-- [**Dynamic**](/apps/dynamic) - Comprehensive identity and authentication solution
-- [**Magic**](/apps/magic) - Passwordless authentication for web3 applications
-- [**Privy**](/apps/privy) - User authentication and wallet management
-- [**Safe**](/apps/safe) - Multi-signature wallet solution
+- Get listed in Intersend’s ecosystem
+- Distribute your app and reach crypto users through partner wallets
+</Callout>
 
-## Integration Benefits
+Intersend is a non-custodial app store for crypto apps that enables seamless Web3 interactions through a unified experience. The fundamental goal is: **make it simple for your app and your users to connect, sign, and transact**.
 
-By integrating with Intersend, apps gain several advantages:
+The integration enables seamless communication between your app and Intersend through:
 
-1. **Simplified User Onboarding**
-   - One-click connection to your app directly from Intersend wallet
-   - No complex wallet connection flows
+- **Auto Connection**: Automatically connects user's wallet with your app on page load with SIWE authentication
+- **Message Relay**: Handles transaction signing, message signing, and contract interactions through event listeners
+- **Non-Intrusive**: Only activates when your app is accessed through Intersend, preserving your existing functionality
 
-2. **Enhanced Transaction Experience**
-   - Users can perform transactions without leaving your app
-   - Support for multiple blockchain networks in a single integration
+Below is a high-level guide for dApps that want to be listed in Intersend and auto-connect with users’ wallets via Intersend.
 
-3. **Expanded User Base**
-   - Access to Intersend's growing ecosystem of users
-   - Cross-promotion opportunities within the Interspace marketplace
+## Key Concepts
 
-## Implementation Process
+### Connectors
 
-Integrating your app with Intersend involves:
+A “connector” is a small integration layer that allows Intersend to inject a user’s wallet/account into your dApp. We support multiple connector approaches, including:
 
-1. Register your app in the Intersend developer portal
-2. Implement the Intersend SDK in your application
-3. Configure the connection settings and transaction flows
-4. Test and deploy your integration
+- [For existing Safe apps](https://intersend.mintlify.app/apps/privy)
+- [For apps that are using Privy](https://intersend.mintlify.app/apps/privy)
+- [For apps that are using Dynamic](https://intersend.mintlify.app/apps/dynamic)
 
-For detailed implementation guides, select the specific app integration from the sidebar.
+### iFrame & Event Listeners
+
+Intersend loads your app within an iframe, and sends/ expects events to:
+
+1. **Auto-connect** the user’s wallet/account
+2. **Relay transactions** for user signatures
+3. **Share** signed data, chain switches, and transaction confirmations back to your dApp
+
+Because of this, you need to **whitelist Intersend’s domain** so your site can be embedded in an iframe and to allow cross-domain communication.
+
+## How It Works
+
+
+![Intersend Sequence Diagram](https://www.mermaidchart.com/raw/3f350c1f-4465-4676-8fea-4088d143e879?theme=light&version=v0.1&format=svg)
+
+
+### Get Listed Once integrated, contact us for review and approval:
+
+- Email: hello@intersend.io
+- Telegram: @erturkarda
+
+We’ll add your project to the Intersend App Store so users can seamlessly discover and use your app.

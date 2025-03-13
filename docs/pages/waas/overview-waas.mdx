@@ -5,17 +5,20 @@ layout: docs
 showSidebar: true
 ---
 
-# Wallets & WaaS Overview
+# Overview - For Wallets & WaaS [Integrate apps into a wallet]
 
-> **This guide is for you if:**
-> 
-> You provide wallet infrastructure (MPC, custodial, non-custodial) (e.g., UniversalX, MetaMask, Phantom) and want to:
-> - Offer curated dApps without maintaining it yourself
-> - Keep full control over security and UX
-> - Automatically integrate new apps added to Intersend
+import { Callout } from 'vocs/components'
 
-## Demo
+<Callout type="info">
+**This guide is for you if:**  
+You provide wallet infrastructure (MPC, custodial, non-custodial) (e.g UniversalX, MetaMask, Phantom) and want to:
+- Offer curated dApps without maintaining it yourself
+- Keep full control over security and UX
+- Automatically integrate new apps added to Intersend
+</Callout>
 
+
+<Callout type="tip">
 See a demo of an Intersend-powered wallet:
 
 <iframe
@@ -30,6 +33,10 @@ See a demo of an Intersend-powered wallet:
 
 [Github Repo](https://github.com/intersend/demo-wallet)
 
+</Callout>
+
+
+
 Turn your wallet into a Web3 gateway using Intersend's universal connector. Embed dApps directly into your interface while maintaining full control over security and user experience.
 
 ## Why Intersend?
@@ -43,40 +50,13 @@ Turn your wallet into a Web3 gateway using Intersend's universal connector. Embe
 
 ---
 
+
 ## How It Works
 
 Under the hood, Intersend provides an iframe-based connector that mediates communication between your wallet and apps available on Intersend. Your wallet remains in control of signing, transaction approvals, and chain selection while Intersend relays messages securely via `postMessage`.
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant Wallet as Wallet
-    participant Intersend as Intersend
-    participant App as dApp
+![Intersend Sequence Diagram](https://www.mermaidchart.com/raw/3f350c1f-4465-4676-8fea-4088d143e879?theme=light&version=v0.1&format=svg)
 
-    Note over User,Wallet: Load & Browse Apps
-    User->>Wallet: Opens Explore Tab of the Wallet
-    Wallet->>Intersend: Fetch list of available apps
-    Intersend-->>Wallet: Returns app list
-
-    Note over User,App: Launch Selected App
-    User->>Wallet: Selects an app
-    Wallet->>Intersend: Loads app in iframe
-    Intersend->>App: Wraps the app within Intersend interface
-    Intersend->>Wallet: REQUEST_WALLET_INFO
-    Intersend->>App: WALLET_INFO (address chainId)
-
-    Note over User,App: Transaction Flow
-    User->>App: Initiates transaction (e.g. purchase swap)
-    App->>Intersend: eth_sendTransaction (RPC request)
-    Intersend->>Wallet: Constructs and sends tx data
-    Wallet->>User: Prompts user to approve transaction
-    User->>Wallet: Approves
-    Wallet->>Wallet: Signs & broadcasts to blockchain
-    Wallet->>Intersend: Returns txHash (RPC response)
-    Intersend->>App: Send success or fail
-    App-->>User: Shows success/fail message
-```
 
 ## Security Architecture
 

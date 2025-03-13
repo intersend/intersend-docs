@@ -1069,188 +1069,681 @@ In case of an error, the response will include error details:
 ```
 
 
-Transform your wallet into a powerful Web3 gateway without the overhead of maintaining a dApp store. Intersend enables you to effortlessly embed popular Web3 applications directly into your wallet interface, providing your users with a seamless, secure experience.
+## Code Examples
 
-### Overview
+This page demonstrates how to include code examples in your documentation. Vocs provides powerful code formatting and highlighting capabilities.
 
-##### Key Benefits
+### Basic Code Blocks
 
-* **Zero Maintenance dApp Store**: New apps added to Intersend ecosystem automatically become available to your users
-* **Native Experience**: Users interact with dApps directly through your wallet - no external connections needed
-* **Enhanced Security**: All transactions and signatures are handled by your wallet's security infrastructure
-* **Unified User Experience**: One-click access to apps with pre-injected wallet connection
-* **Full Control**: Choose which apps to display and customize the integration to match your wallet's UI
+You can create a simple code block by using triple backticks and specifying the language:
 
-#### How It Works
-
-```mermaid
-sequenceDiagram
-    actor User
-    participant Wallet as Wallet Provider
-    participant API as Intersend API
-    participant App as dApp (iframe)
-    
-    Note over User,API: Load Apps
-    User->>Wallet: Opens Wallet Provider
-    Wallet->>API: GET /v1/intersend/interspace/apps
-    API-->>Wallet: Return available apps
-    
-    Note over User,App: App Launch
-    User->>Wallet: Selects an app
-    Wallet->>App: Load app in iframe
-    App->>Wallet: REQUEST_WALLET_INFO
-    Wallet-->>App: WALLET_INFO (address, chainId)
-    
-    Note over User,App: Transaction Flow
-    User->>App: Initiates transaction (e.g. buy gift card)
-    App->>Wallet: RPC_REQUEST (eth_sendTransaction)
-    Wallet->>User: Request transaction approval
-    User->>Wallet: Approves transaction
-    Wallet->>Wallet: Handle signing
-    Wallet-->>App: RPC_RESPONSE (txHash)
-    App-->>User: Show transaction success
+```javascript
+// This is a JavaScript example
+function helloWorld() {
+  console.log("Hello from Intersend!");
+  return true;
+}
 ```
 
-#### Security Architecture
+### Syntax Highlighting
 
-The SDK implements a secure messaging protocol between the embedded app and your wallet:
+Vocs supports syntax highlighting for various languages:
 
-* Apps run in isolated iframes with specific permissions
-* All cryptographic operations occur within your wallet's secure environment
-* Transaction requests are handled by your wallet's native signing flow
-* No direct access to user's private keys or sensitive data
+#### TypeScript
 
-### Quick Integration Guide
+```typescript
+interface User {
+  id: string;
+  name: string;
+  wallets: string[];
+}
 
-#### 1. Install the SDK
+function createUser(name: string): User {
+  return {
+    id: crypto.randomUUID(),
+    name,
+    wallets: []
+  };
+}
+```
+
+#### Solidity
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.17;
+
+contract IntersendWallet {
+    address public owner;
+    
+    constructor() {
+        owner = msg.sender;
+    }
+    
+    function transfer(address payable recipient, uint amount) public {
+        require(msg.sender == owner, "Not authorized");
+        recipient.transfer(amount);
+    }
+}
+```
+
+#### JSON
+
+```json
+{
+  "user": {
+    "id": "usr_123456",
+    "wallets": [
+      {
+        "address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+        "network": "ethereum"
+      }
+    ],
+    "preferences": {
+      "theme": "dark",
+      "notifications": true
+    }
+  }
+}
+```
+
+### Code Highlighting
+
+You can highlight specific lines in your code to draw attention to important parts:
+
+```typescript [3-5]
+import { Wallet } from '@intersend/sdk';
+
+// This line and the next two will be highlighted
+const wallet = new Wallet({
+  apiKey: process.env.INTERSEND_API_KEY
+});
+
+const balance = await wallet.getBalance();
+```
+
+### Inline Code
+
+You can also include `inline code` within your text for referring to variables, functions, or short code snippets.
+
+### Code with Comments
+
+Use comments to explain what's happening in your code:
+
+```javascript
+// Initialize the SDK with your API key
+const client = new IntersendClient({
+  apiKey: 'YOUR_API_KEY'  // Replace with your actual API key
+});
+
+// Create a new wallet for the user
+const wallet = await client.createWallet({
+  userId: '123',          // Unique identifier for the user
+  network: 'ethereum'     // Which blockchain network to use
+});
+
+// The wallet is now ready to use!
+console.log(wallet.address);
+```
+
+### Terminal Commands
+
+Show terminal commands with a bash code block:
 
 ```bash
-npm install universal-portability
+# Install the SDK
+npm install @intersend/sdk
+
+# Initialize a new project
+npx intersend init my-project
+
+# Start the development server
+cd my-project
+npm run dev
 ```
 
-#### 2. Fetch Available Apps
+### React Component Examples
 
-```javascript
-const fetchApps = async () => {
-  const response = await fetch('https://api.intersend.com/v1/intersend/interspace/apps', {
-    headers: {
-      'x-api-key': 'YOUR_API_KEY'
-    }
-  });
-  const apps = await response.json();
-};
-```
+Display React component usage:
 
-#### 3. Embed an App
+```jsx
+import { WalletConnect } from '@intersend/react';
 
-```javascript
-import { Port } from 'universal-portability';
-
-function AppContainer({ appUrl, walletAddress, rpcUrl }) {
+function App() {
   return (
-    <Port
-      src={`https://intersend.io/${app.slug}`}
-      accountAddress={walletAddress}
-      rpcUrl={rpcUrl}
-    />
+    <div className="app">
+      <h1>My Intersend App</h1>
+      
+      <WalletConnect 
+        clientId="YOUR_CLIENT_ID"
+        onConnect={(wallet) => console.log('Connected:', wallet)}
+      />
+      
+      {/* The rest of your application */}
+    </div>
   );
 }
 ```
 
-#### 4. Message Handling & Transactions
+
+## Images and Media
+
+Adding visual elements to your documentation can significantly improve comprehension and user engagement. This guide shows how to add images, diagrams, and other media to your Intersend documentation.
+
+### Adding Images
+
+Images in Vocs documentation can be added using standard Markdown syntax or through HTML/JSX for more control.
+
+#### Basic Image Syntax
+
+```md
+![Alt text](/path/to/image.png)
+```
+
+#### Placing Images in Your Documentation
+
+1. Place your images in the `public/images` directory
+2. Reference them using paths relative to the public directory:
+
+```md
+![Intersend Wallet Interface](/images/wallet-interface.png)
+```
+
+#### Styled Images
+
+For more control over image display, you can use HTML with styling:
+
+```jsx
+<img 
+  src="/images/diagram.png" 
+  alt="Architecture Diagram" 
+  style={{ 
+    maxWidth: '100%',
+    borderRadius: '8px',
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+  }} 
+/>
+```
+
+### Image Captions
+
+Add captions below your images for additional context:
+
+```jsx
+<figure>
+  <img src="/images/transaction-flow.png" alt="Transaction Flow Diagram" />
+  <figcaption>Fig 1: Flow of a transaction through the Intersend network</figcaption>
+</figure>
+```
+
+### Diagrams
+
+You can add diagrams using Mermaid syntax for flowcharts, sequence diagrams, and more:
+
+```mermaid
+graph TD
+    A[User] -->|Signs Transaction| B[Intersend SDK]
+    B -->|Submits to| C[Relay Network]
+    C -->|Broadcasts to| D[Blockchain]
+    D -->|Confirms| E[Transaction Complete]
+    E -->|Notifies| A
+```
+
+### Responsive Images
+
+For images that should scale with viewport size:
+
+```jsx
+<div style={{ maxWidth: '100%', overflow: 'auto' }}>
+  <img 
+    src="/images/large-diagram.png" 
+    alt="Network Architecture" 
+    style={{ width: '100%', maxWidth: '800px' }} 
+  />
+</div>
+```
+
+### Dark and Light Mode Images
+
+For different images based on color scheme:
+
+```jsx
+<>
+  <img 
+    className="block dark:hidden" 
+    src="/images/light-mode.png" 
+    alt="Light mode diagram" 
+  />
+  <img 
+    className="hidden dark:block" 
+    src="/images/dark-mode.png" 
+    alt="Dark mode diagram" 
+  />
+</>
+```
+
+### Asset Organization
+
+Keep your images organized using a logical structure:
+
+```
+public/
+└── images/
+    ├── logos/
+    │   ├── intersend-logo.svg
+    │   └── partner-logos/
+    ├── diagrams/
+    │   ├── architecture.png
+    │   └── flow-charts/
+    ├── screenshots/
+    │   ├── dashboard.png
+    │   └── wallet-view.png
+    └── icons/
+        └── file-types/
+```
+
+### Image Best Practices
+
+1. **Optimize image sizes** before adding them to documentation
+2. **Use SVG** for logos and icons when possible
+3. **Provide meaningful alt text** for accessibility
+4. **Keep a consistent style** across diagrams and screenshots
+5. **Use proper resolution** images (2x for high-DPI displays)
+
+
+## Markdown Syntax
+
+### Titles
+
+Best used for section headers.
+
+```md
+## Titles
+```
+
+#### Subtitles
+
+Best used for subsection headers.
+
+```md
+### Subtitles
+```
+
+> **Tip:** Each **title** and **subtitle** creates an anchor and also shows up on the table of contents on the right.
+
+### Text Formatting
+
+We support most markdown formatting. Simply add `**`, `_`, or `~` around text to format it.
+
+| Style         | How to write it   | Result            |
+| ------------- | ----------------- | ----------------- |
+| Bold          | `**bold**`        | **bold**          |
+| Italic        | `_italic_`        | *italic*          |
+| Strikethrough | `~strikethrough~` | ~~strikethrough~~ |
+
+You can combine these. For example, write `**_bold and italic_**` to get ***bold and italic*** text.
+
+You need to use HTML to write superscript and subscript text. That is, add `<sup>` or `<sub>` around your text.
+
+| Text Size   | How to write it          | Result                 |
+| ----------- | ------------------------ | ---------------------- |
+| Superscript | `<sup>superscript</sup>` | <sup>superscript</sup> |
+| Subscript   | `<sub>subscript</sub>`   | <sub>subscript</sub>   |
+
+### Linking to Pages
+
+You can add a link by wrapping text in `[]()`. You would write `[link to google](https://google.com)` to [link to google](https://google.com).
+
+Links to pages in your docs need to be root-relative. Basically, you should include the entire folder path. For example, `[link to code examples](/essentials/code)` links to the page "Code Examples" in our essentials section.
+
+Relative links like `[link to text](../text)` will open slower because they cannot be optimized as easily.
+
+### Blockquotes
+
+#### Singleline
+
+To create a blockquote, add a `>` in front of a paragraph.
+
+> Dorothy followed her through many of the beautiful rooms in her castle.
+
+```md
+> Dorothy followed her through many of the beautiful rooms in her castle.
+```
+
+#### Multiline
+
+> Dorothy followed her through many of the beautiful rooms in her castle.
+>
+> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
+
+```md
+> Dorothy followed her through many of the beautiful rooms in her castle.
+>
+> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
+```
+
+### Math Expressions
+
+You can include mathematical expressions using standard Markdown math syntax with dollar signs:
+
+Inline math: $E = mc^2$
+
+```md
+Inline math: $E = mc^2$
+```
+
+Block math:
+
+$$
+E = mc^2
+$$
+
+```md
+$$
+E = mc^2
+$$
+```
+
+
+## Navigation
+
+The navigation menu is the list of links shown in the sidebar of your documentation website.
+
+You will likely update `vocs.config.ts` every time you add a new page. Pages do not show up automatically in the navigation.
+
+### Sidebar Configuration
+
+The sidebar configuration in Vocs is defined in the `vocs.config.ts` file. It supports a hierarchical structure that allows for nested navigation groups.
+
+#### Basic Sidebar Structure
 
 ```typescript
-import { sendMessageToIframe } from 'universal-portability';
+// vocs.config.ts
+import { defineConfig } from 'vocs'
 
-// Setup message listener when component mounts
-useEffect(() => {
-  window.addEventListener('message', handleMessages);
-  return () => window.removeEventListener('message', handleMessages);
-}, []);
+export default defineConfig({
+  title: 'Project Name',
+  // Basic sidebar with top-level links
+  sidebar: [
+    {
+      text: 'Getting Started',
+      link: '/getting-started'
+    },
+    {
+      text: 'Features',
+      link: '/features'
+    }
+  ]
+})
+```
 
-// Main message handler
-const handleMessages = async (event: MessageEvent) => {
-  // Validate message origin for security
-  if (event.origin !== 'https://app.intersend.io') return;
-  
-  const { type, payload, id } = event.data;
-  
-  switch (type) {
-    case 'REQUEST_WALLET_INFO':
-      // Respond with wallet details
-      sendMessageToIframe({
-        type: 'WALLET_INFO',
-        payload: {
-          address: walletAddress,
-          chainId: '0x89', // Polygon
-          isConnected: true
-        },
-        id
-      });
-      break;
-      
-    case 'RPC_REQUEST':
-      if (payload.method === 'eth_sendTransaction') {
-        try {
-          // Transaction parameters from the app
-          const txParams = payload.params[0];
-          
-          // Show your wallet's native transaction UI
-          const approved = await showTransactionApproval(txParams);
-          
-          if (approved) {
-            // Sign and send transaction using your wallet's infrastructure
-            const txHash = await handleTransaction(txParams);
-            
-            // Respond with transaction hash
-            sendMessageToIframe({
-              type: 'RPC_RESPONSE',
-              payload: txHash,
-              id
-            });
-          } else {
-            // User rejected - send error response
-            sendMessageToIframe({
-              type: 'RPC_RESPONSE',
-              error: {
-                code: 4001,
-                message: 'User rejected transaction'
-              },
-              id
-            });
-          }
-        } catch (error) {
-          // Handle any errors during transaction
-          sendMessageToIframe({
-            type: 'RPC_RESPONSE',
-            error: {
-              code: 4000,
-              message: error.message
-            },
-            id
-          });
-        }
+#### Nested Navigation Groups
+
+You can create nested navigation groups by using the `items` property:
+
+```typescript
+// vocs.config.ts
+sidebar: [
+  {
+    text: 'Getting Started',
+    link: '/getting-started'
+  },
+  {
+    text: 'API Reference',
+    // Nested items
+    items: [
+      { text: 'Introduction', link: '/api-reference/introduction' },
+      { text: 'Authentication', link: '/api-reference/authentication' },
+      { 
+        text: 'Endpoints',
+        // Further nesting is possible
+        items: [
+          { text: 'Create', link: '/api-reference/endpoint/create' },
+          { text: 'Read', link: '/api-reference/endpoint/read' }
+        ]
       }
-      break;
+    ]
+  }
+]
+```
+
+#### Collapsible Sections
+
+You can make sections collapsible using the `collapsed` property:
+
+```typescript
+sidebar: [
+  {
+    text: 'API Reference',
+    collapsed: true, // Section will be collapsed by default
+    items: [
+      { text: 'Introduction', link: '/api-reference/introduction' },
+      { text: 'Authentication', link: '/api-reference/authentication' }
+    ]
+  }
+]
+```
+
+### Page Organization
+
+Pages should be organized in a logical directory structure that matches your navigation hierarchy:
+
+```
+docs/
+└── pages/
+    ├── index.mdx              # Home page
+    ├── getting-started.mdx    # /getting-started
+    ├── features.mdx           # /features
+    └── api-reference/
+        ├── introduction.mdx   # /api-reference/introduction
+        ├── authentication.mdx # /api-reference/authentication
+        └── endpoint/
+            ├── create.mdx     # /api-reference/endpoint/create
+            └── read.mdx       # /api-reference/endpoint/read
+```
+
+Always ensure that your directory structure aligns with the paths you specify in your sidebar configuration.
+
+
+## Reusable Snippets
+
+Documentation often requires repeating the same content in multiple places. Reusable snippets allow you to define content once and reuse it throughout your documentation.
+
+### Basic Snippet Usage
+
+Snippets allow you to store reusable content that can be included in multiple pages. This helps maintain consistency and reduces duplication.
+
+#### Creating Snippets
+
+To create a snippet:
+
+1. Add files in the `docs/snippets` directory with your reusable content
+2. Use clear, descriptive names for your snippet files
+3. Write your content in MDX format
+
+For example, create a file at `docs/snippets/wallet-setup.mdx`:
+
+```mdx
+## Setting Up Your Wallet
+
+To set up your Intersend wallet:
+
+1. Download the Intersend app or visit [web.intersend.io](https://web.intersend.io)
+2. Click "Create New Wallet"
+3. Choose your preferred authentication method
+4. Follow the on-screen instructions to secure your wallet
+```
+
+#### Using Snippets in Documentation
+
+You can then import and use this snippet in any of your documentation pages:
+
+```mdx
+import WalletSetup from '../snippets/wallet-setup.mdx'
+
+# Getting Started
+
+Before you can start using Intersend, you need to set up your wallet.
+
+<WalletSetup />
+
+Now that your wallet is set up, let's explore the features...
+```
+
+### Advanced Snippet Techniques
+
+#### Parameterized Snippets
+
+You can pass parameters to your snippets for more flexibility:
+
+```mdx
+export const ApiEndpoint = ({ method, endpoint, description }) => (
+  <div className="api-endpoint">
+    <div className="method">{method}</div>
+    <div className="endpoint">{endpoint}</div>
+    <div className="description">{description}</div>
+  </div>
+);
+```
+
+Then use it with different values:
+
+```mdx
+<ApiEndpoint 
+  method="GET" 
+  endpoint="/api/v1/wallets" 
+  description="Retrieve all user wallets" 
+/>
+```
+
+#### Snippet Categories
+
+Organize your snippets into logical categories:
+
+```
+docs/
+└── snippets/
+    ├── setup/
+    │   ├── wallet-setup.mdx
+    │   └── api-setup.mdx
+    ├── errors/
+    │   ├── common-errors.mdx
+    │   └── error-handling.mdx
+    └── examples/
+        ├── react-example.mdx
+        └── node-example.mdx
+```
+
+### Best Practices
+
+1. **Keep snippets atomic** - Design snippets for a single, specific purpose
+2. **Maintain consistency** - Use consistent naming and formatting
+3. **Update centrally** - When changes are needed, update the snippet once
+4. **Document parameters** - For parameterized snippets, document expected parameters
+5. **Version control** - Keep snippets under version control along with your documentation
+
+
+## Configuration Settings
+
+This page outlines the various configuration options available for Intersend integrations. These settings allow you to customize how Intersend works with your application.
+
+### Core Configuration Properties
+
+| Property      | Type    | Description                               |
+| ------------- | ------- | ----------------------------------------- |
+| `apiKey`      | string  | Your Intersend API key for authentication |
+| `environment` | string  | 'production' or 'testnet' environment     |
+| `networkId`   | number  | The blockchain network ID to connect to   |
+| `gaslessMode` | boolean | Enable or disable gasless transactions    |
+
+### Example Configuration
+
+```javascript
+// Initialize Intersend with configuration options
+const intersend = new Intersend({
+  apiKey: 'YOUR_API_KEY',
+  environment: 'production',
+  networkId: 1, // Ethereum Mainnet
+  gaslessMode: true,
+  callbacks: {
+    onConnect: (walletAddress) => {
+      console.log(`Connected to wallet: ${walletAddress}`);
+    },
+    onDisconnect: () => {
+      console.log('Wallet disconnected');
+    }
+  }
+});
+```
+
+### Advanced Settings
+
+#### Authentication Options
+
+You can configure how users authenticate with your application:
+
+```javascript
+const authConfig = {
+  methods: ['email', 'social', 'wallet'],
+  requireVerification: true,
+  redirectUrl: 'https://your-app.com/dashboard',
+  termsOfServiceUrl: 'https://your-app.com/terms',
+  privacyPolicyUrl: 'https://your-app.com/privacy'
+};
+```
+
+#### Transaction Settings
+
+Control how transactions are handled:
+
+```javascript
+const txConfig = {
+  confirmations: 2,            // Number of confirmations to wait for
+  timeout: 60000,              // Transaction timeout in milliseconds
+  gasMultiplier: 1.2,          // Multiply estimated gas by this factor
+  maxFeePerGas: '50000000000', // Maximum fee per gas in wei
+  nonce: 'auto'                // Use 'auto' or provide a specific nonce
+};
+```
+
+#### Network Configuration
+
+Configure network-specific settings:
+
+```javascript
+const networks = {
+  ethereum: {
+    rpcUrl: 'https://mainnet.infura.io/v3/YOUR_INFURA_KEY',
+    chainId: 1,
+    blockExplorerUrl: 'https://etherscan.io'
+  },
+  polygon: {
+    rpcUrl: 'https://polygon-rpc.com',
+    chainId: 137,
+    blockExplorerUrl: 'https://polygonscan.com'
   }
 };
 ```
 
-#### Message Protocol
+### Callback Events
 
-The SDK uses a secure postMessage protocol for communication:
+| Event            | Description                           |
+| ---------------- | ------------------------------------- |
+| `onConnect`      | Fired when a wallet is connected      |
+| `onDisconnect`   | Fired when a wallet is disconnected   |
+| `onTransaction`  | Fired when a transaction is initiated |
+| `onConfirmation` | Fired when a transaction is confirmed |
+| `onError`        | Fired when an error occurs            |
 
-* `REQUEST_WALLET_INFO`: App requests wallet connection details
-* `WALLET_INFO`: Wallet responds with account information
-* `RPC_REQUEST`: App requests transaction signing or other RPC methods
-* `RPC_RESPONSE`: Wallet responds with transaction result
+### Environment Variables
 
-All sensitive operations (signing, approvals) are handled by your wallet's existing security infrastructure, ensuring a safe and consistent user experience.
+For server-side implementations, you can use environment variables:
 
-#### Contact Us
-
-* Email: [hello@intersend.io](mailto\:hello@intersend.io)
-* Telegram: @erturkarda
+```
+INTERSEND_API_KEY=your_api_key
+INTERSEND_ENVIRONMENT=production
+INTERSEND_WEBHOOK_SECRET=your_webhook_secret
+```
 
 
 One of the core principles of software development is DRY (Don't Repeat
@@ -2089,683 +2582,6 @@ Once integrated, submit your app for review:
 * [Contact Intersend Support](mailto\:hello@intersend.io)
 
 
-## Code Examples
-
-This page demonstrates how to include code examples in your documentation. Vocs provides powerful code formatting and highlighting capabilities.
-
-### Basic Code Blocks
-
-You can create a simple code block by using triple backticks and specifying the language:
-
-```javascript
-// This is a JavaScript example
-function helloWorld() {
-  console.log("Hello from Intersend!");
-  return true;
-}
-```
-
-### Syntax Highlighting
-
-Vocs supports syntax highlighting for various languages:
-
-#### TypeScript
-
-```typescript
-interface User {
-  id: string;
-  name: string;
-  wallets: string[];
-}
-
-function createUser(name: string): User {
-  return {
-    id: crypto.randomUUID(),
-    name,
-    wallets: []
-  };
-}
-```
-
-#### Solidity
-
-```solidity
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
-
-contract IntersendWallet {
-    address public owner;
-    
-    constructor() {
-        owner = msg.sender;
-    }
-    
-    function transfer(address payable recipient, uint amount) public {
-        require(msg.sender == owner, "Not authorized");
-        recipient.transfer(amount);
-    }
-}
-```
-
-#### JSON
-
-```json
-{
-  "user": {
-    "id": "usr_123456",
-    "wallets": [
-      {
-        "address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
-        "network": "ethereum"
-      }
-    ],
-    "preferences": {
-      "theme": "dark",
-      "notifications": true
-    }
-  }
-}
-```
-
-### Code Highlighting
-
-You can highlight specific lines in your code to draw attention to important parts:
-
-```typescript [3-5]
-import { Wallet } from '@intersend/sdk';
-
-// This line and the next two will be highlighted
-const wallet = new Wallet({
-  apiKey: process.env.INTERSEND_API_KEY
-});
-
-const balance = await wallet.getBalance();
-```
-
-### Inline Code
-
-You can also include `inline code` within your text for referring to variables, functions, or short code snippets.
-
-### Code with Comments
-
-Use comments to explain what's happening in your code:
-
-```javascript
-// Initialize the SDK with your API key
-const client = new IntersendClient({
-  apiKey: 'YOUR_API_KEY'  // Replace with your actual API key
-});
-
-// Create a new wallet for the user
-const wallet = await client.createWallet({
-  userId: '123',          // Unique identifier for the user
-  network: 'ethereum'     // Which blockchain network to use
-});
-
-// The wallet is now ready to use!
-console.log(wallet.address);
-```
-
-### Terminal Commands
-
-Show terminal commands with a bash code block:
-
-```bash
-# Install the SDK
-npm install @intersend/sdk
-
-# Initialize a new project
-npx intersend init my-project
-
-# Start the development server
-cd my-project
-npm run dev
-```
-
-### React Component Examples
-
-Display React component usage:
-
-```jsx
-import { WalletConnect } from '@intersend/react';
-
-function App() {
-  return (
-    <div className="app">
-      <h1>My Intersend App</h1>
-      
-      <WalletConnect 
-        clientId="YOUR_CLIENT_ID"
-        onConnect={(wallet) => console.log('Connected:', wallet)}
-      />
-      
-      {/* The rest of your application */}
-    </div>
-  );
-}
-```
-
-
-## Images and Media
-
-Adding visual elements to your documentation can significantly improve comprehension and user engagement. This guide shows how to add images, diagrams, and other media to your Intersend documentation.
-
-### Adding Images
-
-Images in Vocs documentation can be added using standard Markdown syntax or through HTML/JSX for more control.
-
-#### Basic Image Syntax
-
-```md
-![Alt text](/path/to/image.png)
-```
-
-#### Placing Images in Your Documentation
-
-1. Place your images in the `public/images` directory
-2. Reference them using paths relative to the public directory:
-
-```md
-![Intersend Wallet Interface](/images/wallet-interface.png)
-```
-
-#### Styled Images
-
-For more control over image display, you can use HTML with styling:
-
-```jsx
-<img 
-  src="/images/diagram.png" 
-  alt="Architecture Diagram" 
-  style={{ 
-    maxWidth: '100%',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
-  }} 
-/>
-```
-
-### Image Captions
-
-Add captions below your images for additional context:
-
-```jsx
-<figure>
-  <img src="/images/transaction-flow.png" alt="Transaction Flow Diagram" />
-  <figcaption>Fig 1: Flow of a transaction through the Intersend network</figcaption>
-</figure>
-```
-
-### Diagrams
-
-You can add diagrams using Mermaid syntax for flowcharts, sequence diagrams, and more:
-
-```mermaid
-graph TD
-    A[User] -->|Signs Transaction| B[Intersend SDK]
-    B -->|Submits to| C[Relay Network]
-    C -->|Broadcasts to| D[Blockchain]
-    D -->|Confirms| E[Transaction Complete]
-    E -->|Notifies| A
-```
-
-### Responsive Images
-
-For images that should scale with viewport size:
-
-```jsx
-<div style={{ maxWidth: '100%', overflow: 'auto' }}>
-  <img 
-    src="/images/large-diagram.png" 
-    alt="Network Architecture" 
-    style={{ width: '100%', maxWidth: '800px' }} 
-  />
-</div>
-```
-
-### Dark and Light Mode Images
-
-For different images based on color scheme:
-
-```jsx
-<>
-  <img 
-    className="block dark:hidden" 
-    src="/images/light-mode.png" 
-    alt="Light mode diagram" 
-  />
-  <img 
-    className="hidden dark:block" 
-    src="/images/dark-mode.png" 
-    alt="Dark mode diagram" 
-  />
-</>
-```
-
-### Asset Organization
-
-Keep your images organized using a logical structure:
-
-```
-public/
-└── images/
-    ├── logos/
-    │   ├── intersend-logo.svg
-    │   └── partner-logos/
-    ├── diagrams/
-    │   ├── architecture.png
-    │   └── flow-charts/
-    ├── screenshots/
-    │   ├── dashboard.png
-    │   └── wallet-view.png
-    └── icons/
-        └── file-types/
-```
-
-### Image Best Practices
-
-1. **Optimize image sizes** before adding them to documentation
-2. **Use SVG** for logos and icons when possible
-3. **Provide meaningful alt text** for accessibility
-4. **Keep a consistent style** across diagrams and screenshots
-5. **Use proper resolution** images (2x for high-DPI displays)
-
-
-## Markdown Syntax
-
-### Titles
-
-Best used for section headers.
-
-```md
-## Titles
-```
-
-#### Subtitles
-
-Best used for subsection headers.
-
-```md
-### Subtitles
-```
-
-> **Tip:** Each **title** and **subtitle** creates an anchor and also shows up on the table of contents on the right.
-
-### Text Formatting
-
-We support most markdown formatting. Simply add `**`, `_`, or `~` around text to format it.
-
-| Style         | How to write it   | Result            |
-| ------------- | ----------------- | ----------------- |
-| Bold          | `**bold**`        | **bold**          |
-| Italic        | `_italic_`        | *italic*          |
-| Strikethrough | `~strikethrough~` | ~~strikethrough~~ |
-
-You can combine these. For example, write `**_bold and italic_**` to get ***bold and italic*** text.
-
-You need to use HTML to write superscript and subscript text. That is, add `<sup>` or `<sub>` around your text.
-
-| Text Size   | How to write it          | Result                 |
-| ----------- | ------------------------ | ---------------------- |
-| Superscript | `<sup>superscript</sup>` | <sup>superscript</sup> |
-| Subscript   | `<sub>subscript</sub>`   | <sub>subscript</sub>   |
-
-### Linking to Pages
-
-You can add a link by wrapping text in `[]()`. You would write `[link to google](https://google.com)` to [link to google](https://google.com).
-
-Links to pages in your docs need to be root-relative. Basically, you should include the entire folder path. For example, `[link to code examples](/essentials/code)` links to the page "Code Examples" in our essentials section.
-
-Relative links like `[link to text](../text)` will open slower because they cannot be optimized as easily.
-
-### Blockquotes
-
-#### Singleline
-
-To create a blockquote, add a `>` in front of a paragraph.
-
-> Dorothy followed her through many of the beautiful rooms in her castle.
-
-```md
-> Dorothy followed her through many of the beautiful rooms in her castle.
-```
-
-#### Multiline
-
-> Dorothy followed her through many of the beautiful rooms in her castle.
->
-> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
-
-```md
-> Dorothy followed her through many of the beautiful rooms in her castle.
->
-> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
-```
-
-### Math Expressions
-
-You can include mathematical expressions using standard Markdown math syntax with dollar signs:
-
-Inline math: $E = mc^2$
-
-```md
-Inline math: $E = mc^2$
-```
-
-Block math:
-
-$$
-E = mc^2
-$$
-
-```md
-$$
-E = mc^2
-$$
-```
-
-
-## Navigation
-
-The navigation menu is the list of links shown in the sidebar of your documentation website.
-
-You will likely update `vocs.config.ts` every time you add a new page. Pages do not show up automatically in the navigation.
-
-### Sidebar Configuration
-
-The sidebar configuration in Vocs is defined in the `vocs.config.ts` file. It supports a hierarchical structure that allows for nested navigation groups.
-
-#### Basic Sidebar Structure
-
-```typescript
-// vocs.config.ts
-import { defineConfig } from 'vocs'
-
-export default defineConfig({
-  title: 'Project Name',
-  // Basic sidebar with top-level links
-  sidebar: [
-    {
-      text: 'Getting Started',
-      link: '/getting-started'
-    },
-    {
-      text: 'Features',
-      link: '/features'
-    }
-  ]
-})
-```
-
-#### Nested Navigation Groups
-
-You can create nested navigation groups by using the `items` property:
-
-```typescript
-// vocs.config.ts
-sidebar: [
-  {
-    text: 'Getting Started',
-    link: '/getting-started'
-  },
-  {
-    text: 'API Reference',
-    // Nested items
-    items: [
-      { text: 'Introduction', link: '/api-reference/introduction' },
-      { text: 'Authentication', link: '/api-reference/authentication' },
-      { 
-        text: 'Endpoints',
-        // Further nesting is possible
-        items: [
-          { text: 'Create', link: '/api-reference/endpoint/create' },
-          { text: 'Read', link: '/api-reference/endpoint/read' }
-        ]
-      }
-    ]
-  }
-]
-```
-
-#### Collapsible Sections
-
-You can make sections collapsible using the `collapsed` property:
-
-```typescript
-sidebar: [
-  {
-    text: 'API Reference',
-    collapsed: true, // Section will be collapsed by default
-    items: [
-      { text: 'Introduction', link: '/api-reference/introduction' },
-      { text: 'Authentication', link: '/api-reference/authentication' }
-    ]
-  }
-]
-```
-
-### Page Organization
-
-Pages should be organized in a logical directory structure that matches your navigation hierarchy:
-
-```
-docs/
-└── pages/
-    ├── index.mdx              # Home page
-    ├── getting-started.mdx    # /getting-started
-    ├── features.mdx           # /features
-    └── api-reference/
-        ├── introduction.mdx   # /api-reference/introduction
-        ├── authentication.mdx # /api-reference/authentication
-        └── endpoint/
-            ├── create.mdx     # /api-reference/endpoint/create
-            └── read.mdx       # /api-reference/endpoint/read
-```
-
-Always ensure that your directory structure aligns with the paths you specify in your sidebar configuration.
-
-
-## Reusable Snippets
-
-Documentation often requires repeating the same content in multiple places. Reusable snippets allow you to define content once and reuse it throughout your documentation.
-
-### Basic Snippet Usage
-
-Snippets allow you to store reusable content that can be included in multiple pages. This helps maintain consistency and reduces duplication.
-
-#### Creating Snippets
-
-To create a snippet:
-
-1. Add files in the `docs/snippets` directory with your reusable content
-2. Use clear, descriptive names for your snippet files
-3. Write your content in MDX format
-
-For example, create a file at `docs/snippets/wallet-setup.mdx`:
-
-```mdx
-## Setting Up Your Wallet
-
-To set up your Intersend wallet:
-
-1. Download the Intersend app or visit [web.intersend.io](https://web.intersend.io)
-2. Click "Create New Wallet"
-3. Choose your preferred authentication method
-4. Follow the on-screen instructions to secure your wallet
-```
-
-#### Using Snippets in Documentation
-
-You can then import and use this snippet in any of your documentation pages:
-
-```mdx
-import WalletSetup from '../snippets/wallet-setup.mdx'
-
-# Getting Started
-
-Before you can start using Intersend, you need to set up your wallet.
-
-<WalletSetup />
-
-Now that your wallet is set up, let's explore the features...
-```
-
-### Advanced Snippet Techniques
-
-#### Parameterized Snippets
-
-You can pass parameters to your snippets for more flexibility:
-
-```mdx
-export const ApiEndpoint = ({ method, endpoint, description }) => (
-  <div className="api-endpoint">
-    <div className="method">{method}</div>
-    <div className="endpoint">{endpoint}</div>
-    <div className="description">{description}</div>
-  </div>
-);
-```
-
-Then use it with different values:
-
-```mdx
-<ApiEndpoint 
-  method="GET" 
-  endpoint="/api/v1/wallets" 
-  description="Retrieve all user wallets" 
-/>
-```
-
-#### Snippet Categories
-
-Organize your snippets into logical categories:
-
-```
-docs/
-└── snippets/
-    ├── setup/
-    │   ├── wallet-setup.mdx
-    │   └── api-setup.mdx
-    ├── errors/
-    │   ├── common-errors.mdx
-    │   └── error-handling.mdx
-    └── examples/
-        ├── react-example.mdx
-        └── node-example.mdx
-```
-
-### Best Practices
-
-1. **Keep snippets atomic** - Design snippets for a single, specific purpose
-2. **Maintain consistency** - Use consistent naming and formatting
-3. **Update centrally** - When changes are needed, update the snippet once
-4. **Document parameters** - For parameterized snippets, document expected parameters
-5. **Version control** - Keep snippets under version control along with your documentation
-
-
-## Configuration Settings
-
-This page outlines the various configuration options available for Intersend integrations. These settings allow you to customize how Intersend works with your application.
-
-### Core Configuration Properties
-
-| Property      | Type    | Description                               |
-| ------------- | ------- | ----------------------------------------- |
-| `apiKey`      | string  | Your Intersend API key for authentication |
-| `environment` | string  | 'production' or 'testnet' environment     |
-| `networkId`   | number  | The blockchain network ID to connect to   |
-| `gaslessMode` | boolean | Enable or disable gasless transactions    |
-
-### Example Configuration
-
-```javascript
-// Initialize Intersend with configuration options
-const intersend = new Intersend({
-  apiKey: 'YOUR_API_KEY',
-  environment: 'production',
-  networkId: 1, // Ethereum Mainnet
-  gaslessMode: true,
-  callbacks: {
-    onConnect: (walletAddress) => {
-      console.log(`Connected to wallet: ${walletAddress}`);
-    },
-    onDisconnect: () => {
-      console.log('Wallet disconnected');
-    }
-  }
-});
-```
-
-### Advanced Settings
-
-#### Authentication Options
-
-You can configure how users authenticate with your application:
-
-```javascript
-const authConfig = {
-  methods: ['email', 'social', 'wallet'],
-  requireVerification: true,
-  redirectUrl: 'https://your-app.com/dashboard',
-  termsOfServiceUrl: 'https://your-app.com/terms',
-  privacyPolicyUrl: 'https://your-app.com/privacy'
-};
-```
-
-#### Transaction Settings
-
-Control how transactions are handled:
-
-```javascript
-const txConfig = {
-  confirmations: 2,            // Number of confirmations to wait for
-  timeout: 60000,              // Transaction timeout in milliseconds
-  gasMultiplier: 1.2,          // Multiply estimated gas by this factor
-  maxFeePerGas: '50000000000', // Maximum fee per gas in wei
-  nonce: 'auto'                // Use 'auto' or provide a specific nonce
-};
-```
-
-#### Network Configuration
-
-Configure network-specific settings:
-
-```javascript
-const networks = {
-  ethereum: {
-    rpcUrl: 'https://mainnet.infura.io/v3/YOUR_INFURA_KEY',
-    chainId: 1,
-    blockExplorerUrl: 'https://etherscan.io'
-  },
-  polygon: {
-    rpcUrl: 'https://polygon-rpc.com',
-    chainId: 137,
-    blockExplorerUrl: 'https://polygonscan.com'
-  }
-};
-```
-
-### Callback Events
-
-| Event            | Description                           |
-| ---------------- | ------------------------------------- |
-| `onConnect`      | Fired when a wallet is connected      |
-| `onDisconnect`   | Fired when a wallet is disconnected   |
-| `onTransaction`  | Fired when a transaction is initiated |
-| `onConfirmation` | Fired when a transaction is confirmed |
-| `onError`        | Fired when an error occurs            |
-
-### Environment Variables
-
-For server-side implementations, you can use environment variables:
-
-```
-INTERSEND_API_KEY=your_api_key
-INTERSEND_ENVIRONMENT=production
-INTERSEND_WEBHOOK_SECRET=your_webhook_secret
-```
-
-
 ## Wallets & WaaS Overview
 
 > **This guide is for you if:**
@@ -3029,6 +2845,190 @@ The SDK uses a secure postMessage protocol with these main events:
 All sensitive operations (signing, approvals) are handled by your wallet's existing security infrastructure, ensuring a safe and consistent user experience.
 
 ### Contact Us
+
+* Email: [hello@intersend.io](mailto\:hello@intersend.io)
+* Telegram: @erturkarda
+
+
+Transform your wallet into a powerful Web3 gateway without the overhead of maintaining a dApp store. Intersend enables you to effortlessly embed popular Web3 applications directly into your wallet interface, providing your users with a seamless, secure experience.
+
+### Overview
+
+##### Key Benefits
+
+* **Zero Maintenance dApp Store**: New apps added to Intersend ecosystem automatically become available to your users
+* **Native Experience**: Users interact with dApps directly through your wallet - no external connections needed
+* **Enhanced Security**: All transactions and signatures are handled by your wallet's security infrastructure
+* **Unified User Experience**: One-click access to apps with pre-injected wallet connection
+* **Full Control**: Choose which apps to display and customize the integration to match your wallet's UI
+
+#### How It Works
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant Wallet as Wallet Provider
+    participant API as Intersend API
+    participant App as dApp (iframe)
+    
+    Note over User,API: Load Apps
+    User->>Wallet: Opens Wallet Provider
+    Wallet->>API: GET /v1/intersend/interspace/apps
+    API-->>Wallet: Return available apps
+    
+    Note over User,App: App Launch
+    User->>Wallet: Selects an app
+    Wallet->>App: Load app in iframe
+    App->>Wallet: REQUEST_WALLET_INFO
+    Wallet-->>App: WALLET_INFO (address, chainId)
+    
+    Note over User,App: Transaction Flow
+    User->>App: Initiates transaction (e.g. buy gift card)
+    App->>Wallet: RPC_REQUEST (eth_sendTransaction)
+    Wallet->>User: Request transaction approval
+    User->>Wallet: Approves transaction
+    Wallet->>Wallet: Handle signing
+    Wallet-->>App: RPC_RESPONSE (txHash)
+    App-->>User: Show transaction success
+```
+
+#### Security Architecture
+
+The SDK implements a secure messaging protocol between the embedded app and your wallet:
+
+* Apps run in isolated iframes with specific permissions
+* All cryptographic operations occur within your wallet's secure environment
+* Transaction requests are handled by your wallet's native signing flow
+* No direct access to user's private keys or sensitive data
+
+### Quick Integration Guide
+
+#### 1. Install the SDK
+
+```bash
+npm install universal-portability
+```
+
+#### 2. Fetch Available Apps
+
+```javascript
+const fetchApps = async () => {
+  const response = await fetch('https://api.intersend.com/v1/intersend/interspace/apps', {
+    headers: {
+      'x-api-key': 'YOUR_API_KEY'
+    }
+  });
+  const apps = await response.json();
+};
+```
+
+#### 3. Embed an App
+
+```javascript
+import { Port } from 'universal-portability';
+
+function AppContainer({ appUrl, walletAddress, rpcUrl }) {
+  return (
+    <Port
+      src={`https://intersend.io/${app.slug}`}
+      accountAddress={walletAddress}
+      rpcUrl={rpcUrl}
+    />
+  );
+}
+```
+
+#### 4. Message Handling & Transactions
+
+```typescript
+import { sendMessageToIframe } from 'universal-portability';
+
+// Setup message listener when component mounts
+useEffect(() => {
+  window.addEventListener('message', handleMessages);
+  return () => window.removeEventListener('message', handleMessages);
+}, []);
+
+// Main message handler
+const handleMessages = async (event: MessageEvent) => {
+  // Validate message origin for security
+  if (event.origin !== 'https://app.intersend.io') return;
+  
+  const { type, payload, id } = event.data;
+  
+  switch (type) {
+    case 'REQUEST_WALLET_INFO':
+      // Respond with wallet details
+      sendMessageToIframe({
+        type: 'WALLET_INFO',
+        payload: {
+          address: walletAddress,
+          chainId: '0x89', // Polygon
+          isConnected: true
+        },
+        id
+      });
+      break;
+      
+    case 'RPC_REQUEST':
+      if (payload.method === 'eth_sendTransaction') {
+        try {
+          // Transaction parameters from the app
+          const txParams = payload.params[0];
+          
+          // Show your wallet's native transaction UI
+          const approved = await showTransactionApproval(txParams);
+          
+          if (approved) {
+            // Sign and send transaction using your wallet's infrastructure
+            const txHash = await handleTransaction(txParams);
+            
+            // Respond with transaction hash
+            sendMessageToIframe({
+              type: 'RPC_RESPONSE',
+              payload: txHash,
+              id
+            });
+          } else {
+            // User rejected - send error response
+            sendMessageToIframe({
+              type: 'RPC_RESPONSE',
+              error: {
+                code: 4001,
+                message: 'User rejected transaction'
+              },
+              id
+            });
+          }
+        } catch (error) {
+          // Handle any errors during transaction
+          sendMessageToIframe({
+            type: 'RPC_RESPONSE',
+            error: {
+              code: 4000,
+              message: error.message
+            },
+            id
+          });
+        }
+      }
+      break;
+  }
+};
+```
+
+#### Message Protocol
+
+The SDK uses a secure postMessage protocol for communication:
+
+* `REQUEST_WALLET_INFO`: App requests wallet connection details
+* `WALLET_INFO`: Wallet responds with account information
+* `RPC_REQUEST`: App requests transaction signing or other RPC methods
+* `RPC_RESPONSE`: Wallet responds with transaction result
+
+All sensitive operations (signing, approvals) are handled by your wallet's existing security infrastructure, ensuring a safe and consistent user experience.
+
+#### Contact Us
 
 * Email: [hello@intersend.io](mailto\:hello@intersend.io)
 * Telegram: @erturkarda

@@ -2,22 +2,22 @@ import { defineConfig } from 'vocs'
 
 export default defineConfig({
   title: 'Intersend',
-  description: 'Documentation for Intersend project',
+  description: 'Documentation for Intersend',
   logoUrl: {
-    light: '/images/Logo_white_version.svg',
-    dark: '/images/Logo_black_version.svg',
+    light: 'https://app.intersend.io/favicon.ico',
+    dark: 'https://app.intersend.io/favicon.ico',
   },
   sidebar: [
+    // {
+    //   text: 'Introduction',
+    //   link: '/'
+    // },
+    // {
+    //   text: 'Overview',
+    //   link: '/overview'
+    // },
     {
-      text: 'Introduction',
-      link: '/'
-    },
-    {
-      text: 'Overview',
-      link: '/overview'
-    },
-    {
-      text: 'Apps - Get Listed',
+      text: 'For Apps',
       collapsed: false,
       items: [
         { text: 'Overview', link: '/apps/overview' },
@@ -27,7 +27,7 @@ export default defineConfig({
       ]
     },
     {
-      text: 'Wallets - Add Apps',
+      text: 'For Wallet Providers/ WaaS',
       collapsed: false,
       items: [
         { text: 'Overview', link: '/waas/overview-waas' },
@@ -35,10 +35,10 @@ export default defineConfig({
       ]
     },
     {
-      text: 'Auth - Make Apps Portable',
+      text: 'For Auth Providers',
       collapsed: false,
       items: [
-        { text: 'Overview', link: '/auth-providers/overview-auth' },
+        { text: 'Overview ', link: '/auth-providers/overview-auth' },
         { text: 'Integration', link: '/auth-providers/integration-auth' }
       ]
     }

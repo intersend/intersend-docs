@@ -1,18 +1,20 @@
 ---
 title: 'Overview - For Auth Providers'
-description: 'Make your ecosystem apps instantly embeddable'
+description: 'Turn ecosystem apps into embeddable apps'
 layout: docs
 showSidebar: true
 ---
+import { Callout } from 'vocs/components'
 
-# Auth Providers Overview
+# Overview - For Auth Providers [Make your ecosystem apps instantly embeddable]
 
-> **This guide is for you if:**
-> 
-> You provide authentication/wallet management infrastructure (e.g Privy, Dynamic) and want to:
-> - Make client apps portable across Web3 interfaces (Worlcoin, Frames, Telegram, Safe)
-> - Offer embeddable apps as a value-add feature
-> - Expand ecosystem reach without additional work
+<Callout type="info">
+**This guide is for you if:**  
+You provide authentication/wallet management infrastructure (e.g Privy, Dynamic) and want to:
+- Make client apps portable across Web3 interfaces (Worlcoin, Frames, Telegram, Safe)
+- Offer embeddable apps as a value-add feature
+- Expand ecosystem reach without additional work
+</Callout>
 
 Turn every app using your SDK into an embeddable component for Intersend-integrated wallets and platforms.
 
@@ -53,33 +55,4 @@ Below is a simplified flow describing how an app (built with your auth SDK) inte
 
 ## Flow Diagram
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant Wallet as Wallet
-    participant Intersend as Intersend
-    participant App as dApp
-
-
-    Note over User,Wallet: Load & Browse Apps
-    User->>Wallet: Opens Explore Tab of the Wallet
-    Wallet->>Intersend: Fetch list of available apps
-    Intersend-->>Wallet: Returns app list
-
-    Note over User,App: Launch Selected App
-    User->>Wallet: Selects an app
-    Wallet->>Intersend: Loads app in iframe
-    Intersend->>App: Wraps dApp within Intersend interface
-    Intersend->>Wallet: REQUEST_WALLET_INFO
-    Intersend->>App: WALLET_INFO (address chainId)
-
-    Note over User,App: Transaction Flow
-    User->>App: Initiates transaction (e.g. purchase swap)
-    App->>Intersend: eth_sendTransaction (RPC request)
-    Intersend->>Wallet: Constructs and sends tx data
-    Wallet->>User: Prompts user to approve transaction
-    User->>Wallet: Approves
-    Wallet->>Wallet: Signs & broadcasts to blockchain
-    Wallet->>Intersend: Returns txHash (RPC response)
-    Intersend->>App: Send success or fail
-    App-->>User: Shows success/fail message
+![Intersend Sequence Diagram](https://www.mermaidchart.com/raw/3f350c1f-4465-4676-8fea-4088d143e879?theme=light&version=v0.1&format=svg)

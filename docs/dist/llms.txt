@@ -8,18 +8,18 @@
 - [Welcome to Intersend](/introduction): Intersend provides powerful tools for building web3 applications and managing blockchain interactions. This documentation will help you get started quickly and provide in-depth information on all of our features and APIs.
 - [Intersend Overview](/overview): Intersend is a marketplace for mini-apps with a smart account for stablecoins. Add money auto-convert to stablecoins. Add accounts and auto-connect to apps. Spend, send, and cash out. Smart profiles for different activities soon.
 - [API Reference](/api-reference/introduction): Welcome to the Intersend API documentation. This section provides detailed information about our API endpoints, authentication methods, and request/response formats.
-- [Integration](/auth-providers/integration-auth): Connect with us to learn more about the technical steps:
-- [Auth Providers Overview](/auth-providers/overview-auth): **This guide is for you if:**
-- [Dynamic Integration](/apps/dynamic): Your existing web app is powered by [Dynamic](https://dynamic.xyz) for authentication and embedded wallet management.
-- [Apps Overview](/apps/overview): Intersend provides seamless integration with various crypto applications through our Interspace marketplace. This section will guide you through the different app integrations available and how to use them effectively.
-- [Privy Integration](/apps/privy): Your existing web app is powered by [Privy](https://privy.io) for authentication and embedded wallet management.
-- [Safe Integration](/apps/safe): Your dApp uses **Wagmi** for wallet interactions.
 - [Code Examples](/essentials/code): This page demonstrates how to include code examples in your documentation. Vocs provides powerful code formatting and highlighting capabilities.
 - [Images and Media](/essentials/images): Adding visual elements to your documentation can significantly improve comprehension and user engagement. This guide shows how to add images, diagrams, and other media to your Intersend documentation.
 - [Markdown Syntax](/essentials/markdown): Best used for section headers.
 - [Navigation](/essentials/navigation): The navigation menu is the list of links shown in the sidebar of your documentation website.
 - [Reusable Snippets](/essentials/reusable-snippets): Documentation often requires repeating the same content in multiple places. Reusable snippets allow you to define content once and reuse it throughout your documentation.
 - [Configuration Settings](/essentials/settings): This page outlines the various configuration options available for Intersend integrations. These settings allow you to customize how Intersend works with your application.
+- [Integration](/auth-providers/integration-auth): Connect with us to learn more about the technical steps:
+- [Auth Providers Overview](/auth-providers/overview-auth): **This guide is for you if:**
+- [Dynamic Integration](/apps/dynamic): Your existing web app is powered by [Dynamic](https://dynamic.xyz) for authentication and embedded wallet management.
+- [Apps Overview](/apps/overview): Intersend provides seamless integration with various crypto applications through our Interspace marketplace. This section will guide you through the different app integrations available and how to use them effectively.
+- [Privy Integration](/apps/privy): Your existing web app is powered by [Privy](https://privy.io) for authentication and embedded wallet management.
+- [Safe Integration](/apps/safe): Your dApp uses **Wagmi** for wallet interactions.
 - [Wallets & WaaS Overview](/waas/overview-waas): **This guide is for you if:**
 - [WaaS Quickstart Guide](/waas/quickstart-waas): **Tip:** See our [complete wallet implementation on Github](https://github.com/intersend/demo-wallet) for a production-ready example of integrating Intersend apps into a wallet.
 - [Create Resource](/api-reference/endpoint/create): This endpoint allows you to create new resources in the Intersend platform.

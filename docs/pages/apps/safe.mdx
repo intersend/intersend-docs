@@ -4,14 +4,18 @@ description: 'Add your Safe App to Intersend.'
 layout: docs
 showSidebar: true
 ---
+import { Callout } from 'vocs/components'
 
-# Safe Integration
+# Safe Integration [Get your app listed on Intersend]
 
-## Prerequisite
+<Callout type="info">
+  **This guide is for you if:**
+
+You’re building a dApp and want to:
 
 - Your dApp uses **Wagmi** for wallet interactions.
-- If using an auth provider (e.g. Privy, Dynamic) refer to its dedicated Intersend guide.
-
+- If using an auth provider (e.g. Privy, Dynamic), refer to its dedicated guide.
+</Callout>
 ## Integration Steps (Wagmi + Safe Example)
 
 Below is the most common scenario: **you already use Wagmi** and need to ensure the Safe Connector is present so Intersend can auto-connect. If your app relies on Privy or Dynamic for auth, please see those guides.
@@ -40,15 +44,25 @@ export const config = createConfig({
 })
 ```
 
-### 2. Verify Integration
+### 2. Whitelist Intersend Domain
 
-Once your app has the Safe connector configured:
+Since Intersend loads your dApp in an iframe and communicates via postMessage, you must allow the following domains:
 
-1. **Test in [Sandbox](https://app.intersend.io/apps/sandbox)** - Load your app URL in the Intersend sandbox environment
-2. **Auto-connect** should happen automatically - Intersend detects Safe connector and injects wallet data
-3. **Test key functions** - Ensure signing requests and transactions work properly
+Required domains:
 
-### 3. Get Listed
+- `intersend.io`
+- `*.intersend.io`
+
+If you’re using a third-party authentication provider, ensure they also whitelist these domains to enable secure cross-domain communication.
+
+
+### 3. Verify App Behavior Inside Intersend
+
+1. **Open [Sandbox](https://app.intersend.io/apps/sandbox)** and paste your web app’s URL into the address bar of the Intersend browser.
+2. **Auto-connect** should kick in; Intersend will inject the user’s wallet data into your app.
+3. **Test transaction or signing flows** to confirm everything relays properly.
+
+### 4. Get Listed
 
 Once integrated, submit your app for review:
 - Email: hello@intersend.io
