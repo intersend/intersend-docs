@@ -30,16 +30,16 @@ export default defineConfig({
       text: 'For Wallet Providers/ WaaS',
       collapsed: false,
       items: [
-        { text: 'Overview', link: '/waas/overview-waas' },
-        { text: 'Quickstart', link: '/waas/quickstart-waas' }
+        { text: 'Overview', link: '/waas/overview' },
+        { text: 'Quickstart', link: '/waas/quickstart' }
       ]
     },
     {
       text: 'For Auth Providers',
       collapsed: false,
       items: [
-        { text: 'Overview ', link: '/auth-providers/overview-auth' },
-        { text: 'Integration', link: '/auth-providers/integration-auth' }
+        { text: 'Overview ', link: '/auth/overview' },
+        { text: 'Integration', link: '/auth/integration' }
       ]
     }
   ],
