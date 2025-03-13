@@ -1,6 +1,6 @@
 # Intersend
 
-> Documentation for Intersend project
+> Documentation for Intersend
 
 ## Development Guide
 
@@ -154,14 +154,14 @@ Intersend offers a comprehensive set of tools for web3 developers:
 
 #### Authentication & Integration
 
-* [Auth Providers](/auth-providers/overview-auth) - Web3 authentication solutions
+* [Auth Providers](/auth/overview) - Web3 authentication solutions
 * [WalletConnect Integration](/walletconnect) - Connect with WalletConnect
 * [RainbowKit](/rainbowkit) - Beautiful wallet connection experiences
 
 #### Application Building
 
 * [Apps Overview](/apps/overview) - Application integration options
-* [Wallet-as-a-Service](/waas/overview-waas) - Custom wallet solutions
+* [Wallet-as-a-Service](/waas/overview) - Custom wallet solutions
 
 #### Development Resources
 
@@ -1069,6 +1069,872 @@ In case of an error, the response will include error details:
 ```
 
 
+## Integration - For Auth Providers \[Make your ecosystem apps instantly embeddable]
+
+Connect with us to learn more about the technical steps:
+
+* Email: [hello@intersend.io](mailto\:hello@intersend.io)
+* Telegram: @erturkarda
+
+
+import { Callout } from 'vocs/components'
+
+## Overview - For Auth Providers \[Make your ecosystem apps instantly embeddable]
+
+<Callout type="info">
+  **This guide is for you if:**\
+  You provide authentication/wallet management infrastructure (e.g Privy, Dynamic) and want to:
+
+  * Make client apps portable across Web3 interfaces (Worlcoin, Frames, Telegram, Safe)
+  * Offer embeddable apps as a value-add feature
+  * Expand ecosystem reach without additional work
+</Callout>
+
+Turn every app using your SDK into an embeddable component for Intersend-integrated wallets and platforms.
+
+### Integration Benefits
+
+* **Ecosystem Growth**
+  Client apps become instantly available to all Intersend partner wallets
+* **Zero Client Changes**
+  Add Intersend connector at SDK layer - no app modifications needed
+* **Universal Compatibility**
+  Works with any partner wallet - making it easy to integrate apps with a few lines of code
+
+***
+
+### How It Works
+
+Below is a simplified flow describing how an app (built with your auth SDK) interacts with a user's wallet through Intersend.
+
+### Example
+
+1. A wallet infrastructure provider (let's call this CoinPace Wallet) uses Intersend SDK to add "App X" into their explore page. *App X is built with your authentication SDK.*
+
+2. Users click App X within CoinPace Wallet's interface. The app loads in an iframe.
+
+3. Your Authentication SDK automatically injects Intersend's connector to App X at initial page load.
+
+4. Intersend's iframe middleware facilitates sharing user's account with the app and automatically connects to it with SIWE (Sign in with Ethereum)
+
+5. When transactions occur:
+   1. App X constructs transaction data
+   2. Intersend relays payload to CoinPace Wallet
+   3. User approves/declines in native wallet UI
+   4. Result propagates back to the app
+
+#### End Result
+
+* The app is fully functional automatically connected to the user's wallet/account
+* Transactions signatures chain switching etc. flow through Intersend's secure layer
+
+### Flow Diagram
+
+![Intersend Sequence Diagram](https://www.mermaidchart.com/raw/3f350c1f-4465-4676-8fea-4088d143e879?theme=light\&version=v0.1\&format=svg)
+
+
+## Dynamic Integration \[Get your app listed on Intersend]
+
+### Prerequisite
+
+* Your existing web app is powered by [Dynamic](https://dynamic.xyz) for authentication and embedded wallet management.
+
+### Integration Steps
+
+#### 1. Install Intersend EVM Wallet Connector
+
+Install the Dynamic Intersend EVM wallet connector with the following command:
+
+For Dynamic v3:
+
+```bash
+npm install @dynamic-labs-connectors/intersend-evm@3.2.4
+# or
+yarn add @dynamic-labs-connectors/intersend-evm@3.2.4
+```
+
+For Dynamic v4:
+
+```bash
+npm install @dynamic-labs-connectors/intersend-evm@4.0.0
+# or
+yarn add @dynamic-labs-connectors/intersend-evm@4.0.0
+```
+
+#### 2. Import the Intersend Connector
+
+In your project import the IntersendEvmWalletConnectors:
+
+```tsx
+import { IntersendEvmWalletConnectors } from '@dynamic-labs-connectors/intersend-evm';
+```
+
+#### 3. Configure Dynamic Provider
+
+Add the Intersend EVM wallet connector to your DynamicContextProvider:
+
+```tsx
+<DynamicContextProvider
+  settings={{
+    walletConnectors: [EthereumWalletConnectors, IntersendEvmWalletConnectors]
+  }}
+>
+  {/* Your app code here */}
+</DynamicContextProvider>
+```
+
+#### 4. Whitelist Intersend Domain
+
+Add Intersend domains to your Dynamic dashboard's allowed origins:
+
+* [https://app.intersend.io](https://app.intersend.io)
+* [https://intersend.io](https://intersend.io)
+
+[Configure Allowed Origins →](https://docs.dynamic.xyz/developer-dashboard/security#adding-an-origin)
+
+#### 5. Verify App Behavior Inside Intersend
+
+1. **Open [Sandbox](https://app.intersend.io/apps/sandbox)** and paste your web app's URL into the address bar of the Intersend browser.
+2. **Auto-connect** should kick in; Intersend will inject the user's wallet data into your app.
+3. **Test transaction or signing flows** to confirm everything relays properly.
+
+#### 6. Get Listed
+
+Once integrated submit your app for review:
+
+* Email: [hello@intersend.io](mailto\:hello@intersend.io)
+* Telegram: @erturkarda
+
+### Need Help?
+
+* [Contact Intersend Support](mailto\:hello@intersend.io)
+
+
+
+
+import { Callout } from 'vocs/components'
+
+## Overview - For Apps \[Get your app listed on Intersend]
+
+<Callout type="info">
+  **This guide is for you if:**
+
+  You’re building a dApp and want to:
+
+  * Get listed in Intersend’s ecosystem
+  * Distribute your app and reach crypto users through partner wallets
+</Callout>
+
+Intersend is a non-custodial app store for crypto apps that enables seamless Web3 interactions through a unified experience. The fundamental goal is: **make it simple for your app and your users to connect, sign, and transact**.
+
+The integration enables seamless communication between your app and Intersend through:
+
+* **Auto Connection**: Automatically connects user's wallet with your app on page load with SIWE authentication
+* **Message Relay**: Handles transaction signing, message signing, and contract interactions through event listeners
+* **Non-Intrusive**: Only activates when your app is accessed through Intersend, preserving your existing functionality
+
+Below is a high-level guide for dApps that want to be listed in Intersend and auto-connect with users’ wallets via Intersend.
+
+### Key Concepts
+
+#### Connectors
+
+A “connector” is a small integration layer that allows Intersend to inject a user’s wallet/account into your dApp. We support multiple connector approaches, including:
+
+* [For existing Safe apps](https://intersend.mintlify.app/apps/privy)
+* [For apps that are using Privy](https://intersend.mintlify.app/apps/privy)
+* [For apps that are using Dynamic](https://intersend.mintlify.app/apps/dynamic)
+
+#### iFrame & Event Listeners
+
+Intersend loads your app within an iframe, and sends/ expects events to:
+
+1. **Auto-connect** the user’s wallet/account
+2. **Relay transactions** for user signatures
+3. **Share** signed data, chain switches, and transaction confirmations back to your dApp
+
+Because of this, you need to **whitelist Intersend’s domain** so your site can be embedded in an iframe and to allow cross-domain communication.
+
+### How It Works
+
+![Intersend Sequence Diagram](https://www.mermaidchart.com/raw/3f350c1f-4465-4676-8fea-4088d143e879?theme=light\&version=v0.1\&format=svg)
+
+#### Get Listed Once integrated, contact us for review and approval:
+
+* Email: [hello@intersend.io](mailto\:hello@intersend.io)
+* Telegram: @erturkarda
+
+We’ll add your project to the Intersend App Store so users can seamlessly discover and use your app.
+
+
+## Privy Integration \[Get your app listed on Intersend]
+
+### Prerequisite
+
+* Your existing web app is powered by [Privy](https://privy.io) for authentication and embedded wallet management.
+
+### Integration Steps
+
+#### 1. Add Required Files
+
+Add these files to your project:
+
+##### intersend-connector.js
+
+```ts
+/**
+ * IntersendProvider class implements a Web3 provider interface for iframe-embedded apps
+ * Handles wallet connection transactions and messaging between parent and child frames
+ */
+class IntersendProvider {
+  constructor() {
+    // Initialize provider state
+    this._state = {
+      accounts: [],
+      isConnected: false,
+      chainId: '0x89', // Default to Polygon
+      lastRequestId: 0
+    };
+
+    // Provider identification flags
+    this.isMetaMask = false;
+    this.isIntersend = true;
+    this.isSafe = true;
+    this.isPortability = true;
+
+    // Allowed domains for security
+    this.allowedDomains = ['app.intersend.io', 'intersend.io', 'localhost'];
+
+    // Event handlers registry
+    this._eventHandlers = {
+      accountsChanged: new Set(),
+      chainChanged: new Set(),
+      connect: new Set(),
+      disconnect: new Set()
+    };
+
+    // Initialize only if running in iframe
+    if (this._isIframe()) {
+      this._initialize();
+    }
+  }
+
+  /**
+   * Check if current context is within an iframe
+   */
+  _isIframe() {
+    return typeof window !== 'undefined' && window !== window.parent;
+  }
+
+  /**
+   * Validate message origin
+   */
+  _isValidOrigin(origin) {
+    try {
+      const url = new URL(origin);
+      return this.allowedDomains.some(domain => url.hostname === domain);
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Generate unique request ID
+   */
+  _generateRequestId() {
+    this._state.lastRequestId++;
+    return `intersend_${Date.now()}_${this._state.lastRequestId}`;
+  }
+
+  /**
+   * Initialize provider and set up message listeners
+   */
+  _initialize() {
+    // Request initial wallet info
+    this._requestWalletInfo();
+
+    // Setup message handler
+    window.addEventListener('message', this._handleMessage.bind(this));
+  }
+
+  /**
+   * Handle incoming messages from parent frame
+   */
+  _handleMessage(event) {
+    // Validate message origin
+    if (!this._isValidOrigin(event.origin)) {
+      console.warn('Message received from unauthorized origin:', event.origin);
+      return;
+    }
+
+    const { type, payload, id, error } = event.data || {};
+
+    switch (type) {
+      case 'WALLET_INFO':
+        this._handleWalletInfo(payload);
+        break;
+      case 'CHAIN_CHANGED':
+        this._handleChainChanged(payload);
+        break;
+      case 'ACCOUNTS_CHANGED':
+        this._handleAccountsChanged(payload);
+        break;
+      case 'DISCONNECT':
+        this._handleDisconnect();
+        break;
+      // Add other message type handlers as needed
+    }
+  }
+
+  /**
+   * Handle wallet info updates
+   */
+  _handleWalletInfo(payload) {
+    if (!payload?.address) return;
+
+    const prevChainId = this._state.chainId;
+    const prevAccounts = this._state.accounts;
+
+    this._state.accounts = [payload.address];
+    this._state.isConnected = true;
+    this._state.chainId = payload.chainId || this._state.chainId;
+
+    // Emit relevant events
+    if (prevChainId !== this._state.chainId) {
+      this._emit('chainChanged', this._state.chainId);
+    }
+
+    if (prevAccounts[0] !== payload.address) {
+      this._emit('accountsChanged', this._state.accounts);
+    }
+
+    if (!prevAccounts.length) {
+      this._emit('connect', { chainId: this._state.chainId });
+    }
+  }
+
+  /**
+   * Request wallet information from parent frame
+   */
+  _requestWalletInfo() {
+    window.parent.postMessage({
+      type: 'REQUEST_WALLET_INFO',
+      id: this._generateRequestId()
+    }, '*');
+  }
+
+   /**
+   * Handle provider requests
+   */
+   async request({ method, params }) {
+    if (!this._isIframe()) {
+      throw new Error('IntersendProvider is only available within iframes');
+    }
+
+    console.debug('Provider request:', method, params);
+
+    switch (method) {
+      case 'eth_requestAccounts':
+        return this._handleAccountsRequest();
+
+      case 'eth_accounts':
+        return Promise.resolve(this._state.accounts);
+
+      case 'eth_chainId':
+        return Promise.resolve(this._state.chainId);
+
+      case 'wallet_switchEthereumChain':
+        return this._handleChainSwitch(params);
+
+      case 'personal_sign':
+      case 'eth_sign':
+      case 'eth_signTypedData':
+      case 'eth_signTypedData_v4':
+        return this._handleSigningRequest(method, params);
+
+      default:
+        return this._handleRpcRequest(method, params);
+    }
+  }
+
+  /**
+   * Handle account connection request
+   */
+  async _handleAccountsRequest() {
+    if (this._state.accounts.length > 0) {
+      return this._state.accounts;
+    }
+
+    return new Promise((resolve, reject) => {
+      const requestId = this._generateRequestId();
+      const timeout = setTimeout(() => {
+        this._removeMessageHandler(requestId);
+        reject(new Error('Account request timeout'));
+      }, 30000);
+
+      this._setupMessageHandler(requestId, (response) => {
+        clearTimeout(timeout);
+        if (response.error) {
+          reject(new Error(response.error));
+        } else if (response.payload?.address) {
+          this._handleWalletInfo(response.payload);
+          resolve(this._state.accounts);
+        }
+      });
+
+      window.parent.postMessage({
+        type: 'REQUEST_WALLET_INFO',
+        id: requestId
+      }, '*');
+    });
+  }
+
+  /**
+   * Handle chain switching request
+   */
+  async _handleChainSwitch(params) {
+    return new Promise((resolve, reject) => {
+      const requestId = this._generateRequestId();
+      const timeout = setTimeout(() => {
+        this._removeMessageHandler(requestId);
+        reject(new Error('Chain switch timeout'));
+      }, 30000);
+
+      this._setupMessageHandler(requestId, (response) => {
+        clearTimeout(timeout);
+        if (response.error) {
+          reject(new Error(response.error));
+        } else {
+          resolve(null);
+        }
+      });
+
+      window.parent.postMessage({
+        type: 'SWITCH_CHAIN',
+        payload: { chainId: params[0].chainId },
+        id: requestId
+      }, '*');
+    });
+  }
+
+  /**
+   * Handle signing requests
+   */
+  async _handleSigningRequest(method, params) {
+    return new Promise((resolve, reject) => {
+      const requestId = this._generateRequestId();
+      const timeout = setTimeout(() => {
+        this._removeMessageHandler(requestId);
+        reject(new Error('Signing request timeout'));
+      }, 300000); // 5 minutes timeout for signing
+
+      this._setupMessageHandler(requestId, (response) => {
+        clearTimeout(timeout);
+        if (response.error) {
+          reject(new Error(response.error));
+        } else {
+          resolve(response.payload.signature);
+        }
+      });
+
+      window.parent.postMessage({
+        type: 'SIGNATURE_REQUEST',
+        payload: {
+          method,
+          params,
+          address: this._state.accounts[0]
+        },
+        id: requestId
+      }, '*');
+    });
+  }
+
+  /**
+   * Handle general RPC requests
+   */
+  async _handleRpcRequest(method, params) {
+    return new Promise((resolve, reject) => {
+      const requestId = this._generateRequestId();
+      const timeout = setTimeout(() => {
+        this._removeMessageHandler(requestId);
+        reject(new Error('RPC request timeout'));
+      }, 30000);
+
+      this._setupMessageHandler(requestId, (response) => {
+        clearTimeout(timeout);
+        if (response.error) {
+          reject(new Error(response.error));
+        } else {
+          resolve(response.payload);
+        }
+      });
+
+      window.parent.postMessage({
+        type: 'RPC_REQUEST',
+        payload: {
+          method,
+          params,
+          address: this._state.accounts[0]
+        },
+        id: requestId
+      }, '*');
+    });
+  }
+
+  /**
+   * Set up message handler for a specific request
+   */
+  _setupMessageHandler(requestId, callback) {
+    const handler = (event) => {
+      if (!this._isValidOrigin(event.origin)) return;
+
+      const { id, type, payload, error } = event.data || {};
+      if (id === requestId) {
+        callback({ type, payload, error });
+        this._removeMessageHandler(requestId);
+      }
+    };
+
+    window.addEventListener('message', handler);
+    this._messageHandlers = this._messageHandlers || new Map();
+    this._messageHandlers.set(requestId, handler);
+  }
+
+  /**
+   * Remove message handler
+   */
+  _removeMessageHandler(requestId) {
+    if (this._messageHandlers?.has(requestId)) {
+      window.removeEventListener('message', this._messageHandlers.get(requestId));
+      this._messageHandlers.delete(requestId);
+    }
+  }
+
+  /**
+   * Event subscription methods
+   */
+  on(event, handler) {
+    if (this._eventHandlers[event]) {
+      this._eventHandlers[event].add(handler);
+    }
+  }
+
+  removeListener(event, handler) {
+    if (this._eventHandlers[event]) {
+      this._eventHandlers[event].delete(handler);
+    }
+  }
+
+  _emit(event, data) {
+    if (this._eventHandlers[event]) {
+      this._eventHandlers[event].forEach(handler => handler(data));
+    }
+  }
+}
+
+/**
+ * EIP-6963 provider info
+ */
+const PROVIDER_INFO = {
+  uuid: 'intersend-provider-v1',
+  name: 'Intersend',
+  icon: 'data:image/svg+xml;base64...', // Add your base64 encoded icon
+  rdns: 'com.intersend'
+};
+
+/**
+ * Announce provider according to EIP-6963
+ */
+function announceProvider() {
+  // Only announce if in iframe
+  if (typeof window === 'undefined' || window === window.parent) {
+    return;
+  }
+
+  const announcement = {
+    provider,
+    info: PROVIDER_INFO
+  };
+
+  // Announce immediately
+  window.dispatchEvent(
+    new CustomEvent('eip6963:announceProvider', {
+      detail: announcement
+    })
+  );
+
+  // Listen for future requests
+  window.addEventListener('eip6963:requestProvider', () => {
+    window.dispatchEvent(
+      new CustomEvent('eip6963:announceProvider', {
+        detail: announcement
+      })
+    );
+  });
+}
+
+// Create provider instance
+const provider = new IntersendProvider();
+
+// Inject provider and announce
+if (typeof window !== 'undefined') {
+  // Only inject if in iframe
+  if (window !== window.parent) {
+    Object.defineProperty(window, 'ethereum', {
+      value: provider,
+      writable: true,
+      configurable: true,
+      enumerable: true
+    });
+
+    announceProvider();
+  }
+}
+
+export { provider, announceProvider };
+```
+
+##### useIntersendAutoConnect.js
+
+```ts
+// useIntersendAutoConnect.js
+import { useEffect, useState, useCallback } from 'react';
+import { useWallets, usePrivy } from '@privy-io/react-auth';
+
+/**
+ * Hook for handling Intersend wallet auto-connection
+ */
+function useIntersendAutoConnect() {
+  const { wallets, ready } = useWallets();
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [error, setError] = useState(null);
+
+  const connectWallet = useCallback(async (address) => {
+    const wallet = wallets.find(
+      (w) => w.address?.toLowerCase() === address.toLowerCase()
+    );
+
+    if (wallet) {
+      try {
+        await wallet.loginOrLink();
+        return true;
+      } catch (err) {
+        console.error('Wallet login/link error:', err);
+        throw err;
+      }
+    }
+    return false;
+  }, [wallets]);
+
+  useEffect(() => {
+    if (!ready || isConnecting || !window.ethereum?._state?.accounts?.length) {
+      return;
+    }
+
+    const autoConnect = async () => {
+      try {
+        setIsConnecting(true);
+        setError(null);
+
+        const address = window.ethereum._state.accounts[0];
+        const connected = await connectWallet(address);
+
+        if (!connected) {
+          console.log('No matching wallet found for address:', address);
+        }
+      } catch (err) {
+        console.error('Auto-connect error:', err);
+        setError(err);
+      } finally {
+        setIsConnecting(false);
+      }
+    };
+
+    autoConnect();
+  }, [ready, wallets, isConnecting, connectWallet]);
+
+  return { isConnecting, error };
+}
+
+/**
+ * Component that handles auto-connection of Intersend wallet
+ * Usage: Just include this component in your app's provider wrapper
+ * <AutoConnectHandler />
+ */
+export function AutoConnectHandler() {
+  const { isConnecting, error } = useIntersendAutoConnect();
+
+  useEffect(() => {
+    if (error) {
+      console.error('Auto-connect error:', error);
+      // You can add additional error handling here like showing a toast notification
+      // toast.error('Failed to auto-connect wallet');
+    }
+  }, [error]);
+
+  // Component doesn't render anything
+  return null;
+}
+
+// Export both the hook and the component
+export { useIntersendAutoConnect };
+
+// Default export is the component for easier imports
+export default AutoConnectHandler;
+```
+
+#### 2. Configure Providers
+
+Import and set up the connector and auto-connect handler in your app's provider configuration:
+
+```tsx
+import './intersend-connector'
+import { AutoConnectHandler } from './hooks/useIntersendAutoConnect'
+
+export default function Providers({ children }) {
+  return (
+    <PrivyProvider appId={privyAppId} config={...}>
+      <WagmiProvider config={wagmiConfig}>
+        {/* AutoConnectHandler manages wallet connection when app is loaded in Intersend */}
+        <AutoConnectHandler />
+        {children}
+      </WagmiProvider>
+    </PrivyProvider>
+  );
+}
+```
+
+#### 3. Whitelist Intersend Domain
+
+Add Intersend domains to your Privy dashboard's allowed origins:
+
+* [https://app.intersend.io](https://app.intersend.io)
+* [https://intersend.io](https://intersend.io)
+
+[Configure Allowed Origins →](https://docs.privy.io/guide/react/configuration/allowed-domains)
+
+#### 4. Verify App Behavior Inside Intersend
+
+1. **Open [Sandbox](https://app.intersend.io/apps/sandbox)** and paste your web app's URL into the address bar of the Intersend browser.
+2. **Auto-connect** should kick in; Intersend will inject the user's wallet data into your app.
+3. **Test transaction or signing flows** to confirm everything relays properly.
+
+#### 5. Get Listed
+
+Once integrated submit your app for review:
+
+* Email: [hello@intersend.io](mailto\:hello@intersend.io)
+* Telegram: @erturkarda
+
+### Need Help?
+
+* [Contact Intersend Support](mailto\:hello@intersend.io)
+
+
+import { Callout } from 'vocs/components'
+
+## Safe Integration \[Get your app listed on Intersend]
+
+<Callout type="info">
+  **This guide is for you if:**
+
+  You’re building a dApp and want to:
+
+  * Your dApp uses **Wagmi** for wallet interactions.
+  * If using an auth provider (e.g. Privy, Dynamic), refer to its dedicated guide.
+</Callout>
+
+### Integration Steps (Wagmi + Safe Example)
+
+Below is the most common scenario: **you already use Wagmi** and need to ensure the Safe Connector is present so Intersend can auto-connect. If your app relies on Privy or Dynamic for auth, please see those guides.
+
+#### 1. Add (or Confirm) Safe Connector
+
+Add the Safe connector to your Wagmi config. If your app already uses the Safe connector, you can skip this step.
+
+```ts
+import { createConfig, http } from 'wagmi'
+import { mainnet, sepolia, polygon } from 'wagmi/chains'
+import { createClient } from 'viem'
+import { safe } from 'wagmi/connectors'
+
+export const config = createConfig({
+  chains: [mainnet, sepolia, polygon],
+  connectors: [
+    safe() // Add Safe connector
+    // other connectors...
+  ],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+    [polygon.id]: http(),
+  },
+})
+```
+
+#### 2. Whitelist Intersend Domain
+
+Since Intersend loads your dApp in an iframe and communicates via postMessage, you must allow the following domains:
+
+Required domains:
+
+* `intersend.io`
+* `*.intersend.io`
+
+If you’re using a third-party authentication provider, ensure they also whitelist these domains to enable secure cross-domain communication.
+
+#### 3. Verify App Behavior Inside Intersend
+
+1. **Open [Sandbox](https://app.intersend.io/apps/sandbox)** and paste your web app’s URL into the address bar of the Intersend browser.
+2. **Auto-connect** should kick in; Intersend will inject the user’s wallet data into your app.
+3. **Test transaction or signing flows** to confirm everything relays properly.
+
+#### 4. Get Listed
+
+Once integrated, submit your app for review:
+
+* Email: [hello@intersend.io](mailto\:hello@intersend.io)
+* Telegram: @erturkarda
+
+### Need Help?
+
+* [Contact Intersend Support](mailto\:hello@intersend.io)
+
+
+## Intersend Sequence Diagram
+
+This diagram illustrates the interaction flow between a User, Wallet App, Intersend, and Your App.
+
+![Intersend Sequence Diagram](/apps/sequence-diagram.svg)
+
+### Key Interactions
+
+#### Load & Browse Apps
+
+1. User opens the Explore Tab of the Wallet
+2. Wallet fetches list of available apps from Intersend
+3. Intersend returns the app list to the Wallet
+
+#### Launch Selected App
+
+1. User selects an app
+2. Wallet loads the app in an iframe through Intersend
+3. Intersend wraps your app within its interface
+4. Intersend requests wallet info and passes it to your app
+
+#### Transaction Flow
+
+1. User initiates a transaction (e.g., purchase, swap)
+2. Your app sends an eth\_sendTransaction RPC request to Intersend
+3. Intersend constructs and sends transaction data to the Wallet
+4. Wallet prompts the user to approve the transaction
+5. User approves the transaction
+6. Wallet signs and broadcasts the transaction to the blockchain
+7. Wallet returns the transaction hash to Intersend
+8. Intersend sends success or failure status to your app
+9. Your app shows a success/failure message to the user
+
+
 ## Code Examples
 
 This page demonstrates how to include code examples in your documentation. Vocs provides powerful code formatting and highlighting capabilities.
@@ -1746,1110 +2612,6 @@ INTERSEND_WEBHOOK_SECRET=your_webhook_secret
 ```
 
 
-One of the core principles of software development is DRY (Don't Repeat
-Yourself). This is a principle that apply to documentation as
-well. If you find yourself repeating the same content in multiple places, you
-should consider creating a custom snippet to keep your content in sync.
-
-
-## Integration
-
-Connect with us to learn more about the technical steps:
-
-* Email: [hello@intersend.io](mailto\:hello@intersend.io)
-* Telegram: @erturkarda
-
-
-## Auth Providers Overview
-
-> **This guide is for you if:**
->
-> You provide authentication/wallet management infrastructure (e.g Privy, Dynamic) and want to:
->
-> * Make client apps portable across Web3 interfaces (Worlcoin, Frames, Telegram, Safe)
-> * Offer embeddable apps as a value-add feature
-> * Expand ecosystem reach without additional work
-
-Turn every app using your SDK into an embeddable component for Intersend-integrated wallets and platforms.
-
-### Integration Benefits
-
-* **Ecosystem Growth**
-  Client apps become instantly available to all Intersend partner wallets
-* **Zero Client Changes**
-  Add Intersend connector at SDK layer - no app modifications needed
-* **Universal Compatibility**
-  Works with any partner wallet - making it easy to integrate apps with a few lines of code
-
-***
-
-### How It Works
-
-Below is a simplified flow describing how an app (built with your auth SDK) interacts with a user's wallet through Intersend.
-
-### Example
-
-1. A wallet infrastructure provider (let's call this CoinPace Wallet) uses Intersend SDK to add "App X" into their explore page. *App X is built with your authentication SDK.*
-
-2. Users click App X within CoinPace Wallet's interface. The app loads in an iframe.
-
-3. Your Authentication SDK automatically injects Intersend's connector to App X at initial page load.
-
-4. Intersend's iframe middleware facilitates sharing user's account with the app and automatically connects to it with SIWE (Sign in with Ethereum)
-
-5. When transactions occur:
-   1. App X constructs transaction data
-   2. Intersend relays payload to CoinPace Wallet
-   3. User approves/declines in native wallet UI
-   4. Result propagates back to the app
-
-#### End Result
-
-* The app is fully functional automatically connected to the user's wallet/account
-* Transactions signatures chain switching etc. flow through Intersend's secure layer
-
-### Flow Diagram
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant Wallet as Wallet
-    participant Intersend as Intersend
-    participant App as dApp
-
-
-    Note over User,Wallet: Load & Browse Apps
-    User->>Wallet: Opens Explore Tab of the Wallet
-    Wallet->>Intersend: Fetch list of available apps
-    Intersend-->>Wallet: Returns app list
-
-    Note over User,App: Launch Selected App
-    User->>Wallet: Selects an app
-    Wallet->>Intersend: Loads app in iframe
-    Intersend->>App: Wraps dApp within Intersend interface
-    Intersend->>Wallet: REQUEST_WALLET_INFO
-    Intersend->>App: WALLET_INFO (address chainId)
-
-    Note over User,App: Transaction Flow
-    User->>App: Initiates transaction (e.g. purchase swap)
-    App->>Intersend: eth_sendTransaction (RPC request)
-    Intersend->>Wallet: Constructs and sends tx data
-    Wallet->>User: Prompts user to approve transaction
-    User->>Wallet: Approves
-    Wallet->>Wallet: Signs & broadcasts to blockchain
-    Wallet->>Intersend: Returns txHash (RPC response)
-    Intersend->>App: Send success or fail
-    App-->>User: Shows success/fail message
-```
-
-
-## Dynamic Integration
-
-### Prerequisite
-
-* Your existing web app is powered by [Dynamic](https://dynamic.xyz) for authentication and embedded wallet management.
-
-### Integration Steps
-
-#### 1. Install Intersend EVM Wallet Connector
-
-Install the Dynamic Intersend EVM wallet connector with the following command:
-
-For Dynamic v3:
-
-```bash
-npm install @dynamic-labs-connectors/intersend-evm@3.2.4
-# or
-yarn add @dynamic-labs-connectors/intersend-evm@3.2.4
-```
-
-For Dynamic v4:
-
-```bash
-npm install @dynamic-labs-connectors/intersend-evm@4.0.0
-# or
-yarn add @dynamic-labs-connectors/intersend-evm@4.0.0
-```
-
-#### 2. Import the Intersend Connector
-
-In your project import the IntersendEvmWalletConnectors:
-
-```tsx
-import { IntersendEvmWalletConnectors } from '@dynamic-labs-connectors/intersend-evm';
-```
-
-#### 3. Configure Dynamic Provider
-
-Add the Intersend EVM wallet connector to your DynamicContextProvider:
-
-```tsx
-<DynamicContextProvider
-  settings={{
-    walletConnectors: [EthereumWalletConnectors, IntersendEvmWalletConnectors]
-  }}
->
-  {/* Your app code here */}
-</DynamicContextProvider>
-```
-
-#### 4. Whitelist Intersend Domain
-
-Add Intersend domains to your Dynamic dashboard's allowed origins:
-
-* [https://app.intersend.io](https://app.intersend.io)
-* [https://intersend.io](https://intersend.io)
-
-[Configure Allowed Origins →](https://docs.dynamic.xyz/developer-dashboard/security#adding-an-origin)
-
-#### 5. Verify App Behavior Inside Intersend
-
-1. **Open [Sandbox](https://app.intersend.io/apps/sandbox)** and paste your web app's URL into the address bar of the Intersend browser.
-2. **Auto-connect** should kick in; Intersend will inject the user's wallet data into your app.
-3. **Test transaction or signing flows** to confirm everything relays properly.
-
-#### 6. Get Listed
-
-Once integrated submit your app for review:
-
-* Email: [hello@intersend.io](mailto\:hello@intersend.io)
-* Telegram: @erturkarda
-
-### Need Help?
-
-* [Contact Intersend Support](mailto\:hello@intersend.io)
-
-
-
-
-## Apps Overview
-
-Intersend provides seamless integration with various crypto applications through our Interspace marketplace. This section will guide you through the different app integrations available and how to use them effectively.
-
-### Available App Integrations
-
-Intersend supports multiple app integrations that expand the functionality of your wallet:
-
-* [**Dynamic**](/apps/dynamic) - Comprehensive identity and authentication solution
-* [**Magic**](/apps/magic) - Passwordless authentication for web3 applications
-* [**Privy**](/apps/privy) - User authentication and wallet management
-* [**Safe**](/apps/safe) - Multi-signature wallet solution
-
-### Integration Benefits
-
-By integrating with Intersend, apps gain several advantages:
-
-1. **Simplified User Onboarding**
-   * One-click connection to your app directly from Intersend wallet
-   * No complex wallet connection flows
-
-2. **Enhanced Transaction Experience**
-   * Users can perform transactions without leaving your app
-   * Support for multiple blockchain networks in a single integration
-
-3. **Expanded User Base**
-   * Access to Intersend's growing ecosystem of users
-   * Cross-promotion opportunities within the Interspace marketplace
-
-### Implementation Process
-
-Integrating your app with Intersend involves:
-
-1. Register your app in the Intersend developer portal
-2. Implement the Intersend SDK in your application
-3. Configure the connection settings and transaction flows
-4. Test and deploy your integration
-
-For detailed implementation guides, select the specific app integration from the sidebar.
-
-
-## Privy Integration
-
-### Prerequisite
-
-* Your existing web app is powered by [Privy](https://privy.io) for authentication and embedded wallet management.
-
-### Integration Steps
-
-#### 1. Add Required Files
-
-Add these files to your project:
-
-##### intersend-connector.js
-
-```ts
-/**
- * IntersendProvider class implements a Web3 provider interface for iframe-embedded apps
- * Handles wallet connection transactions and messaging between parent and child frames
- */
-class IntersendProvider {
-  constructor() {
-    // Initialize provider state
-    this._state = {
-      accounts: [],
-      isConnected: false,
-      chainId: '0x89', // Default to Polygon
-      lastRequestId: 0
-    };
-
-    // Provider identification flags
-    this.isMetaMask = false;
-    this.isIntersend = true;
-    this.isSafe = true;
-    this.isPortability = true;
-
-    // Allowed domains for security
-    this.allowedDomains = ['app.intersend.io', 'intersend.io', 'localhost'];
-
-    // Event handlers registry
-    this._eventHandlers = {
-      accountsChanged: new Set(),
-      chainChanged: new Set(),
-      connect: new Set(),
-      disconnect: new Set()
-    };
-
-    // Initialize only if running in iframe
-    if (this._isIframe()) {
-      this._initialize();
-    }
-  }
-
-  /**
-   * Check if current context is within an iframe
-   */
-  _isIframe() {
-    return typeof window !== 'undefined' && window !== window.parent;
-  }
-
-  /**
-   * Validate message origin
-   */
-  _isValidOrigin(origin) {
-    try {
-      const url = new URL(origin);
-      return this.allowedDomains.some(domain => url.hostname === domain);
-    } catch {
-      return false;
-    }
-  }
-
-  /**
-   * Generate unique request ID
-   */
-  _generateRequestId() {
-    this._state.lastRequestId++;
-    return `intersend_${Date.now()}_${this._state.lastRequestId}`;
-  }
-
-  /**
-   * Initialize provider and set up message listeners
-   */
-  _initialize() {
-    // Request initial wallet info
-    this._requestWalletInfo();
-
-    // Setup message handler
-    window.addEventListener('message', this._handleMessage.bind(this));
-  }
-
-  /**
-   * Handle incoming messages from parent frame
-   */
-  _handleMessage(event) {
-    // Validate message origin
-    if (!this._isValidOrigin(event.origin)) {
-      console.warn('Message received from unauthorized origin:', event.origin);
-      return;
-    }
-
-    const { type, payload, id, error } = event.data || {};
-
-    switch (type) {
-      case 'WALLET_INFO':
-        this._handleWalletInfo(payload);
-        break;
-      case 'CHAIN_CHANGED':
-        this._handleChainChanged(payload);
-        break;
-      case 'ACCOUNTS_CHANGED':
-        this._handleAccountsChanged(payload);
-        break;
-      case 'DISCONNECT':
-        this._handleDisconnect();
-        break;
-      // Add other message type handlers as needed
-    }
-  }
-
-  /**
-   * Handle wallet info updates
-   */
-  _handleWalletInfo(payload) {
-    if (!payload?.address) return;
-
-    const prevChainId = this._state.chainId;
-    const prevAccounts = this._state.accounts;
-
-    this._state.accounts = [payload.address];
-    this._state.isConnected = true;
-    this._state.chainId = payload.chainId || this._state.chainId;
-
-    // Emit relevant events
-    if (prevChainId !== this._state.chainId) {
-      this._emit('chainChanged', this._state.chainId);
-    }
-
-    if (prevAccounts[0] !== payload.address) {
-      this._emit('accountsChanged', this._state.accounts);
-    }
-
-    if (!prevAccounts.length) {
-      this._emit('connect', { chainId: this._state.chainId });
-    }
-  }
-
-  /**
-   * Request wallet information from parent frame
-   */
-  _requestWalletInfo() {
-    window.parent.postMessage({
-      type: 'REQUEST_WALLET_INFO',
-      id: this._generateRequestId()
-    }, '*');
-  }
-
-   /**
-   * Handle provider requests
-   */
-   async request({ method, params }) {
-    if (!this._isIframe()) {
-      throw new Error('IntersendProvider is only available within iframes');
-    }
-
-    console.debug('Provider request:', method, params);
-
-    switch (method) {
-      case 'eth_requestAccounts':
-        return this._handleAccountsRequest();
-
-      case 'eth_accounts':
-        return Promise.resolve(this._state.accounts);
-
-      case 'eth_chainId':
-        return Promise.resolve(this._state.chainId);
-
-      case 'wallet_switchEthereumChain':
-        return this._handleChainSwitch(params);
-
-      case 'personal_sign':
-      case 'eth_sign':
-      case 'eth_signTypedData':
-      case 'eth_signTypedData_v4':
-        return this._handleSigningRequest(method, params);
-
-      default:
-        return this._handleRpcRequest(method, params);
-    }
-  }
-
-  /**
-   * Handle account connection request
-   */
-  async _handleAccountsRequest() {
-    if (this._state.accounts.length > 0) {
-      return this._state.accounts;
-    }
-
-    return new Promise((resolve, reject) => {
-      const requestId = this._generateRequestId();
-      const timeout = setTimeout(() => {
-        this._removeMessageHandler(requestId);
-        reject(new Error('Account request timeout'));
-      }, 30000);
-
-      this._setupMessageHandler(requestId, (response) => {
-        clearTimeout(timeout);
-        if (response.error) {
-          reject(new Error(response.error));
-        } else if (response.payload?.address) {
-          this._handleWalletInfo(response.payload);
-          resolve(this._state.accounts);
-        }
-      });
-
-      window.parent.postMessage({
-        type: 'REQUEST_WALLET_INFO',
-        id: requestId
-      }, '*');
-    });
-  }
-
-  /**
-   * Handle chain switching request
-   */
-  async _handleChainSwitch(params) {
-    return new Promise((resolve, reject) => {
-      const requestId = this._generateRequestId();
-      const timeout = setTimeout(() => {
-        this._removeMessageHandler(requestId);
-        reject(new Error('Chain switch timeout'));
-      }, 30000);
-
-      this._setupMessageHandler(requestId, (response) => {
-        clearTimeout(timeout);
-        if (response.error) {
-          reject(new Error(response.error));
-        } else {
-          resolve(null);
-        }
-      });
-
-      window.parent.postMessage({
-        type: 'SWITCH_CHAIN',
-        payload: { chainId: params[0].chainId },
-        id: requestId
-      }, '*');
-    });
-  }
-
-  /**
-   * Handle signing requests
-   */
-  async _handleSigningRequest(method, params) {
-    return new Promise((resolve, reject) => {
-      const requestId = this._generateRequestId();
-      const timeout = setTimeout(() => {
-        this._removeMessageHandler(requestId);
-        reject(new Error('Signing request timeout'));
-      }, 300000); // 5 minutes timeout for signing
-
-      this._setupMessageHandler(requestId, (response) => {
-        clearTimeout(timeout);
-        if (response.error) {
-          reject(new Error(response.error));
-        } else {
-          resolve(response.payload.signature);
-        }
-      });
-
-      window.parent.postMessage({
-        type: 'SIGNATURE_REQUEST',
-        payload: {
-          method,
-          params,
-          address: this._state.accounts[0]
-        },
-        id: requestId
-      }, '*');
-    });
-  }
-
-  /**
-   * Handle general RPC requests
-   */
-  async _handleRpcRequest(method, params) {
-    return new Promise((resolve, reject) => {
-      const requestId = this._generateRequestId();
-      const timeout = setTimeout(() => {
-        this._removeMessageHandler(requestId);
-        reject(new Error('RPC request timeout'));
-      }, 30000);
-
-      this._setupMessageHandler(requestId, (response) => {
-        clearTimeout(timeout);
-        if (response.error) {
-          reject(new Error(response.error));
-        } else {
-          resolve(response.payload);
-        }
-      });
-
-      window.parent.postMessage({
-        type: 'RPC_REQUEST',
-        payload: {
-          method,
-          params,
-          address: this._state.accounts[0]
-        },
-        id: requestId
-      }, '*');
-    });
-  }
-
-  /**
-   * Set up message handler for a specific request
-   */
-  _setupMessageHandler(requestId, callback) {
-    const handler = (event) => {
-      if (!this._isValidOrigin(event.origin)) return;
-
-      const { id, type, payload, error } = event.data || {};
-      if (id === requestId) {
-        callback({ type, payload, error });
-        this._removeMessageHandler(requestId);
-      }
-    };
-
-    window.addEventListener('message', handler);
-    this._messageHandlers = this._messageHandlers || new Map();
-    this._messageHandlers.set(requestId, handler);
-  }
-
-  /**
-   * Remove message handler
-   */
-  _removeMessageHandler(requestId) {
-    if (this._messageHandlers?.has(requestId)) {
-      window.removeEventListener('message', this._messageHandlers.get(requestId));
-      this._messageHandlers.delete(requestId);
-    }
-  }
-
-  /**
-   * Event subscription methods
-   */
-  on(event, handler) {
-    if (this._eventHandlers[event]) {
-      this._eventHandlers[event].add(handler);
-    }
-  }
-
-  removeListener(event, handler) {
-    if (this._eventHandlers[event]) {
-      this._eventHandlers[event].delete(handler);
-    }
-  }
-
-  _emit(event, data) {
-    if (this._eventHandlers[event]) {
-      this._eventHandlers[event].forEach(handler => handler(data));
-    }
-  }
-}
-
-/**
- * EIP-6963 provider info
- */
-const PROVIDER_INFO = {
-  uuid: 'intersend-provider-v1',
-  name: 'Intersend',
-  icon: 'data:image/svg+xml;base64...', // Add your base64 encoded icon
-  rdns: 'com.intersend'
-};
-
-/**
- * Announce provider according to EIP-6963
- */
-function announceProvider() {
-  // Only announce if in iframe
-  if (typeof window === 'undefined' || window === window.parent) {
-    return;
-  }
-
-  const announcement = {
-    provider,
-    info: PROVIDER_INFO
-  };
-
-  // Announce immediately
-  window.dispatchEvent(
-    new CustomEvent('eip6963:announceProvider', {
-      detail: announcement
-    })
-  );
-
-  // Listen for future requests
-  window.addEventListener('eip6963:requestProvider', () => {
-    window.dispatchEvent(
-      new CustomEvent('eip6963:announceProvider', {
-        detail: announcement
-      })
-    );
-  });
-}
-
-// Create provider instance
-const provider = new IntersendProvider();
-
-// Inject provider and announce
-if (typeof window !== 'undefined') {
-  // Only inject if in iframe
-  if (window !== window.parent) {
-    Object.defineProperty(window, 'ethereum', {
-      value: provider,
-      writable: true,
-      configurable: true,
-      enumerable: true
-    });
-
-    announceProvider();
-  }
-}
-
-export { provider, announceProvider };
-```
-
-##### useIntersendAutoConnect.js
-
-```ts
-// useIntersendAutoConnect.js
-import { useEffect, useState, useCallback } from 'react';
-import { useWallets, usePrivy } from '@privy-io/react-auth';
-
-/**
- * Hook for handling Intersend wallet auto-connection
- */
-function useIntersendAutoConnect() {
-  const { wallets, ready } = useWallets();
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [error, setError] = useState(null);
-
-  const connectWallet = useCallback(async (address) => {
-    const wallet = wallets.find(
-      (w) => w.address?.toLowerCase() === address.toLowerCase()
-    );
-
-    if (wallet) {
-      try {
-        await wallet.loginOrLink();
-        return true;
-      } catch (err) {
-        console.error('Wallet login/link error:', err);
-        throw err;
-      }
-    }
-    return false;
-  }, [wallets]);
-
-  useEffect(() => {
-    if (!ready || isConnecting || !window.ethereum?._state?.accounts?.length) {
-      return;
-    }
-
-    const autoConnect = async () => {
-      try {
-        setIsConnecting(true);
-        setError(null);
-
-        const address = window.ethereum._state.accounts[0];
-        const connected = await connectWallet(address);
-
-        if (!connected) {
-          console.log('No matching wallet found for address:', address);
-        }
-      } catch (err) {
-        console.error('Auto-connect error:', err);
-        setError(err);
-      } finally {
-        setIsConnecting(false);
-      }
-    };
-
-    autoConnect();
-  }, [ready, wallets, isConnecting, connectWallet]);
-
-  return { isConnecting, error };
-}
-
-/**
- * Component that handles auto-connection of Intersend wallet
- * Usage: Just include this component in your app's provider wrapper
- * <AutoConnectHandler />
- */
-export function AutoConnectHandler() {
-  const { isConnecting, error } = useIntersendAutoConnect();
-
-  useEffect(() => {
-    if (error) {
-      console.error('Auto-connect error:', error);
-      // You can add additional error handling here like showing a toast notification
-      // toast.error('Failed to auto-connect wallet');
-    }
-  }, [error]);
-
-  // Component doesn't render anything
-  return null;
-}
-
-// Export both the hook and the component
-export { useIntersendAutoConnect };
-
-// Default export is the component for easier imports
-export default AutoConnectHandler;
-```
-
-#### 2. Configure Providers
-
-Import and set up the connector and auto-connect handler in your app's provider configuration:
-
-```tsx
-import './intersend-connector'
-import { AutoConnectHandler } from './hooks/useIntersendAutoConnect'
-
-export default function Providers({ children }) {
-  return (
-    <PrivyProvider appId={privyAppId} config={...}>
-      <WagmiProvider config={wagmiConfig}>
-        {/* AutoConnectHandler manages wallet connection when app is loaded in Intersend */}
-        <AutoConnectHandler />
-        {children}
-      </WagmiProvider>
-    </PrivyProvider>
-  );
-}
-```
-
-#### 3. Whitelist Intersend Domain
-
-Add Intersend domains to your Privy dashboard's allowed origins:
-
-* [https://app.intersend.io](https://app.intersend.io)
-* [https://intersend.io](https://intersend.io)
-
-[Configure Allowed Origins →](https://docs.privy.io/guide/react/configuration/allowed-domains)
-
-#### 4. Verify App Behavior Inside Intersend
-
-1. **Open [Sandbox](https://app.intersend.io/apps/sandbox)** and paste your web app's URL into the address bar of the Intersend browser.
-2. **Auto-connect** should kick in; Intersend will inject the user's wallet data into your app.
-3. **Test transaction or signing flows** to confirm everything relays properly.
-
-#### 5. Get Listed
-
-Once integrated submit your app for review:
-
-* Email: [hello@intersend.io](mailto\:hello@intersend.io)
-* Telegram: @erturkarda
-
-### Need Help?
-
-* [Contact Intersend Support](mailto\:hello@intersend.io)
-
-
-## Safe Integration
-
-### Prerequisite
-
-* Your dApp uses **Wagmi** for wallet interactions.
-* If using an auth provider (e.g. Privy, Dynamic) refer to its dedicated Intersend guide.
-
-### Integration Steps (Wagmi + Safe Example)
-
-Below is the most common scenario: **you already use Wagmi** and need to ensure the Safe Connector is present so Intersend can auto-connect. If your app relies on Privy or Dynamic for auth, please see those guides.
-
-#### 1. Add (or Confirm) Safe Connector
-
-Add the Safe connector to your Wagmi config. If your app already uses the Safe connector, you can skip this step.
-
-```ts
-import { createConfig, http } from 'wagmi'
-import { mainnet, sepolia, polygon } from 'wagmi/chains'
-import { createClient } from 'viem'
-import { safe } from 'wagmi/connectors'
-
-export const config = createConfig({
-  chains: [mainnet, sepolia, polygon],
-  connectors: [
-    safe() // Add Safe connector
-    // other connectors...
-  ],
-  transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
-    [polygon.id]: http(),
-  },
-})
-```
-
-#### 2. Verify Integration
-
-Once your app has the Safe connector configured:
-
-1. **Test in [Sandbox](https://app.intersend.io/apps/sandbox)** - Load your app URL in the Intersend sandbox environment
-2. **Auto-connect** should happen automatically - Intersend detects Safe connector and injects wallet data
-3. **Test key functions** - Ensure signing requests and transactions work properly
-
-#### 3. Get Listed
-
-Once integrated, submit your app for review:
-
-* Email: [hello@intersend.io](mailto\:hello@intersend.io)
-* Telegram: @erturkarda
-
-### Need Help?
-
-* [Contact Intersend Support](mailto\:hello@intersend.io)
-
-
-## Wallets & WaaS Overview
-
-> **This guide is for you if:**
->
-> You provide wallet infrastructure (MPC, custodial, non-custodial) (e.g., UniversalX, MetaMask, Phantom) and want to:
->
-> * Offer curated dApps without maintaining it yourself
-> * Keep full control over security and UX
-> * Automatically integrate new apps added to Intersend
-
-### Demo
-
-See a demo of an Intersend-powered wallet:
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/tb8bpSt_qAY?si=CrAPF8gv57AiUIkd" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
-
-[Github Repo](https://github.com/intersend/demo-wallet)
-
-Turn your wallet into a Web3 gateway using Intersend's universal connector. Embed dApps directly into your interface while maintaining full control over security and user experience.
-
-### Why Intersend?
-
-* **Zero Maintenance**
-  New apps become automatically available to your users - no integration work required
-* **Security First**
-  All transactions use your existing signing infrastructure - keys never leave your environment
-* **Customizable Curation**
-  Choose which apps to display and control their presentation
-
-***
-
-### How It Works
-
-Under the hood, Intersend provides an iframe-based connector that mediates communication between your wallet and apps available on Intersend. Your wallet remains in control of signing, transaction approvals, and chain selection while Intersend relays messages securely via `postMessage`.
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant Wallet as Wallet
-    participant Intersend as Intersend
-    participant App as dApp
-
-    Note over User,Wallet: Load & Browse Apps
-    User->>Wallet: Opens Explore Tab of the Wallet
-    Wallet->>Intersend: Fetch list of available apps
-    Intersend-->>Wallet: Returns app list
-
-    Note over User,App: Launch Selected App
-    User->>Wallet: Selects an app
-    Wallet->>Intersend: Loads app in iframe
-    Intersend->>App: Wraps the app within Intersend interface
-    Intersend->>Wallet: REQUEST_WALLET_INFO
-    Intersend->>App: WALLET_INFO (address chainId)
-
-    Note over User,App: Transaction Flow
-    User->>App: Initiates transaction (e.g. purchase swap)
-    App->>Intersend: eth_sendTransaction (RPC request)
-    Intersend->>Wallet: Constructs and sends tx data
-    Wallet->>User: Prompts user to approve transaction
-    User->>Wallet: Approves
-    Wallet->>Wallet: Signs & broadcasts to blockchain
-    Wallet->>Intersend: Returns txHash (RPC response)
-    Intersend->>App: Send success or fail
-    App-->>User: Shows success/fail message
-```
-
-### Security Architecture
-
-The SDK implements a secure messaging protocol between the embedded app and your wallet:
-
-* **Isolated Iframes:**
-  All third-party dApps are sandboxed within an iframe managed by Intersend. This prevents unauthorized access to your code or your users' private keys.
-
-* **No Private Key Exposure:**
-  Any signature or transaction request is forwarded to your wallet's internal signing logic. Keys never leave your environment.
-
-* **Origin Validation:**
-  The Intersend SDK verifies the origin of incoming messages. Suspicious or unknown sources are ignored.
-
-### Contact Us
-
-* Email: [hello@intersend.io](mailto\:hello@intersend.io)
-* Telegram: @erturkarda
-
-
-## WaaS Quickstart Guide
-
-> **Tip:** See our [complete wallet implementation on Github](https://github.com/intersend/demo-wallet) for a production-ready example of integrating Intersend apps into a wallet.
-
-### 1. Install the SDK
-
-```bash
-npm install universal-portability
-```
-
-### 2. Set Up Provider
-
-Wrap your application with the UniversalPortabilityProvider:
-
-```javascript
-import { UniversalPortabilityProvider } from 'universal-portability';
-
-function App() {
-  return (
-    <WagmiProvider config={wagmiConfig}>
-      <UniversalPortabilityProvider>
-        {/* Your app */}
-      </UniversalPortabilityProvider>
-    </WagmiProvider>
-  );
-}
-```
-
-### 3. Implement Message Handlers
-
-Your wallet needs to listen for events from Intersend—such as requests to connect, sign a message, or approve a transaction.
-
-Create these two hooks to handle communication between your wallet and embedded dApps:
-
-#### src/hooks/useMessageHandler.ts
-
-```typescript
-import { useEffect } from 'react';
-import { useUniversalPortability } from 'universal-portability';
-import { sendTransaction, signMessage } from '@wagmi/core';
-import { config } from '../wagmi';
-import { hexToString } from 'viem';
-
-export interface MessageHandlerConfig {
-  walletAddress: string;
-  chainId: number;
-}
-
-export function useMessageHandler({ walletAddress, chainId }: MessageHandlerConfig) {
-  const { sendMessageToIFrame } = useUniversalPortability();
-
-  useEffect(() => {
-    const handleMessage = async (event: MessageEvent) => {
-      const { type, payload, requestId } = event.data;
-
-      try {
-        switch (type) {
-          case 'INTERSEND_CONNECT_REQUEST':
-            sendMessageToIFrame(
-              {
-                type: 'INTERSEND_CONNECT_RESPONSE',
-                payload: {
-                  address: walletAddress,
-                  chainId,
-                  isConnected: true
-                }
-              }
-            );
-            break;
-
-          case 'SIGN_MESSAGE_REQUEST':
-            // Handle message signing
-            break;
-
-          case 'TRANSACTION_REQUEST':
-            // Handle transaction requests
-            break;
-        }
-      } catch (error: any) {
-        // Error handling
-      }
-    };
-
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, [walletAddress, chainId, sendMessageToIFrame]);
-}
-```
-
-#### src/hooks/usePortHandler.ts
-
-```typescript
-import { useAccount, useChainId } from 'wagmi';
-import { useMessageHandler } from './useMessageHandler';
-
-export function usePortHandler() {
-  const { address } = useAccount();
-  const chainId = useChainId();
-
-  useMessageHandler({
-    walletAddress: address!,
-    chainId: chainId!
-  });
-
-  return {
-    isReady: Boolean(address && chainId)
-  };
-}
-```
-
-### 4. Create dApp Store Container
-
-Intersend can serve as your "dApp store" aggregator. You can display all available apps, letting users pick which to launch. For instance:
-
-```typescript
-import { Port, usePortableApps } from 'universal-portability';
-
-function DAppStoreContainer() {
-  const { apps } = usePortableApps(); // array of dApp metadata
-
-  return (
-    <div className="dapp-grid">
-      {apps.map(app => (
-        <div key={app.id} className="dapp-card">
-          <img src={app.logo} alt={app.name} />
-          <h3>{app.name}</h3>
-          <button onClick={() => navigateToApp(app)}>
-            Launch {app.name}
-          </button>
-        </div>
-      ))}
-    </div>
-  );
-}
-```
-
-### 5. Render dApp Interface
-
-When the user selects a dApp, you embed it:
-
-```typescript
-import { Port } from 'universal-portability';
-import { useAccount, useChainId } from 'wagmi';
-
-import { usePortHandler } from '../hooks/usePortHandler';
-
-function AppContainer({ app }) {
-  const rpcURL = process.env.RPC_URL;
-  const { address } = useAccount();
-
-  // enable postMessage communication
-  usePortHandler();
-
-  return (
-    <Port
-      src={`https://app.intersend.io/apps/${app.slug}`}
-      address={address}
-      rpcUrl={rpcURL}
-      height="400px"
-      width="800px"
-    />
-  );
-}
-```
-
-### Message Protocol
-
-The SDK uses a secure postMessage protocol with these main events:
-
-* `INTERSEND_CONNECT_REQUEST`: Initial wallet connection request
-* `SIGN_MESSAGE_REQUEST`: Request to sign a message
-* `TRANSACTION_REQUEST`: Request to send a transaction
-* `SWITCH_CHAIN_REQUEST`: Request to switch chain
-* `*_RESPONSE`: Corresponding response events
-
-All sensitive operations (signing, approvals) are handled by your wallet's existing security infrastructure, ensuring a safe and consistent user experience.
-
-### Contact Us
-
-* Email: [hello@intersend.io](mailto\:hello@intersend.io)
-* Telegram: @erturkarda
-
-
 Transform your wallet into a powerful Web3 gateway without the overhead of maintaining a dApp store. Intersend enables you to effortlessly embed popular Web3 applications directly into your wallet interface, providing your users with a seamless, secure experience.
 
 ### Overview
@@ -3029,6 +2791,259 @@ The SDK uses a secure postMessage protocol for communication:
 All sensitive operations (signing, approvals) are handled by your wallet's existing security infrastructure, ensuring a safe and consistent user experience.
 
 #### Contact Us
+
+* Email: [hello@intersend.io](mailto\:hello@intersend.io)
+* Telegram: @erturkarda
+
+
+One of the core principles of software development is DRY (Don't Repeat
+Yourself). This is a principle that apply to documentation as
+well. If you find yourself repeating the same content in multiple places, you
+should consider creating a custom snippet to keep your content in sync.
+
+
+## Overview - For Wallets & WaaS \[Integrate apps into a wallet]
+
+import { Callout } from 'vocs/components'
+
+<Callout type="info">
+  **This guide is for you if:**\
+  You provide wallet infrastructure (MPC, custodial, non-custodial) (e.g UniversalX, MetaMask, Phantom) and want to:
+
+  * Offer curated dApps without maintaining it yourself
+  * Keep full control over security and UX
+  * Automatically integrate new apps added to Intersend
+</Callout>
+
+<Callout type="tip">
+  See a demo of an Intersend-powered wallet:
+
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/tb8bpSt_qAY?si=CrAPF8gv57AiUIkd" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+
+  [Github Repo](https://github.com/intersend/demo-wallet)
+</Callout>
+
+Turn your wallet into a Web3 gateway using Intersend's universal connector. Embed dApps directly into your interface while maintaining full control over security and user experience.
+
+### Why Intersend?
+
+* **Zero Maintenance**
+  New apps become automatically available to your users - no integration work required
+* **Security First**
+  All transactions use your existing signing infrastructure - keys never leave your environment
+* **Customizable Curation**
+  Choose which apps to display and control their presentation
+
+***
+
+### How It Works
+
+Under the hood, Intersend provides an iframe-based connector that mediates communication between your wallet and apps available on Intersend. Your wallet remains in control of signing, transaction approvals, and chain selection while Intersend relays messages securely via `postMessage`.
+
+![Intersend Sequence Diagram](https://www.mermaidchart.com/raw/3f350c1f-4465-4676-8fea-4088d143e879?theme=light\&version=v0.1\&format=svg)
+
+### Security Architecture
+
+The SDK implements a secure messaging protocol between the embedded app and your wallet:
+
+* **Isolated Iframes:**
+  All third-party dApps are sandboxed within an iframe managed by Intersend. This prevents unauthorized access to your code or your users' private keys.
+
+* **No Private Key Exposure:**
+  Any signature or transaction request is forwarded to your wallet's internal signing logic. Keys never leave your environment.
+
+* **Origin Validation:**
+  The Intersend SDK verifies the origin of incoming messages. Suspicious or unknown sources are ignored.
+
+### Contact Us
+
+* Email: [hello@intersend.io](mailto\:hello@intersend.io)
+* Telegram: @erturkarda
+
+
+import { Callout } from 'vocs/components'
+
+## Quickstart - For Wallets & WaaS \[Integrate apps into a wallet]
+
+<Callout type="tip">
+  See our [complete wallet implementation on Github](https://github.com/intersend/demo-wallet)
+  for a production-ready example of integrating Intersend apps into a wallet.
+</Callout>
+
+### 1. Install the SDK
+
+```bash
+npm install universal-portability
+```
+
+### 2. Set Up Provider
+
+Wrap your application with the UniversalPortabilityProvider:
+
+```javascript
+import { UniversalPortabilityProvider } from 'universal-portability';
+
+function App() {
+  return (
+    <WagmiProvider config={wagmiConfig}>
+      <UniversalPortabilityProvider>
+        {/* Your app */}
+      </UniversalPortabilityProvider>
+    </WagmiProvider>
+  );
+}
+```
+
+### 3. Implement Message Handlers
+
+Your wallet needs to listen for events from Intersend—such as requests to connect, sign a message, or approve a transaction.
+
+Create these two hooks to handle communication between your wallet and embedded dApps:
+
+#### src/hooks/useMessageHandler.ts
+
+```typescript
+import { useEffect } from 'react';
+import { useUniversalPortability } from 'universal-portability';
+import { sendTransaction, signMessage } from '@wagmi/core';
+import { config } from '../wagmi';
+import { hexToString } from 'viem';
+
+export interface MessageHandlerConfig {
+  walletAddress: string;
+  chainId: number;
+}
+
+export function useMessageHandler({ walletAddress, chainId }: MessageHandlerConfig) {
+  const { sendMessageToIFrame } = useUniversalPortability();
+
+  useEffect(() => {
+    const handleMessage = async (event: MessageEvent) => {
+      const { type, payload, requestId } = event.data;
+
+      try {
+        switch (type) {
+          case 'INTERSEND_CONNECT_REQUEST':
+            sendMessageToIFrame(
+              {
+                type: 'INTERSEND_CONNECT_RESPONSE',
+                payload: {
+                  address: walletAddress,
+                  chainId,
+                  isConnected: true
+                }
+              }
+            );
+            break;
+
+          case 'SIGN_MESSAGE_REQUEST':
+            // Handle message signing
+            break;
+
+          case 'TRANSACTION_REQUEST':
+            // Handle transaction requests
+            break;
+        }
+      } catch (error: any) {
+        // Error handling
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [walletAddress, chainId, sendMessageToIFrame]);
+}
+```
+
+#### src/hooks/usePortHandler.ts
+
+```typescript
+import { useAccount, useChainId } from 'wagmi';
+import { useMessageHandler } from './useMessageHandler';
+
+export function usePortHandler() {
+  const { address } = useAccount();
+  const chainId = useChainId();
+
+  useMessageHandler({
+    walletAddress: address!,
+    chainId: chainId!
+  });
+
+  return {
+    isReady: Boolean(address && chainId)
+  };
+}
+```
+
+### 4. Create dApp Store Container
+
+Intersend can serve as your "dApp store" aggregator. You can display all available apps, letting users pick which to launch. For instance:
+
+```typescript
+import { Port, usePortableApps } from 'universal-portability';
+
+function DAppStoreContainer() {
+  const { apps } = usePortableApps(); // array of dApp metadata
+
+  return (
+    <div className="dapp-grid">
+      {apps.map(app => (
+        <div key={app.id} className="dapp-card">
+          <img src={app.logo} alt={app.name} />
+          <h3>{app.name}</h3>
+          <button onClick={() => navigateToApp(app)}>
+            Launch {app.name}
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+### 5. Render dApp Interface
+
+When the user selects a dApp, you embed it:
+
+```typescript
+import { Port } from 'universal-portability';
+import { useAccount, useChainId } from 'wagmi';
+
+import { usePortHandler } from '../hooks/usePortHandler';
+
+function AppContainer({ app }) {
+  const rpcURL = process.env.RPC_URL;
+  const { address } = useAccount();
+
+  // enable postMessage communication
+  usePortHandler();
+
+  return (
+    <Port
+      src={`https://app.intersend.io/apps/${app.slug}`}
+      address={address}
+      rpcUrl={rpcURL}
+      height="400px"
+      width="800px"
+    />
+  );
+}
+```
+
+### Message Protocol
+
+The SDK uses a secure postMessage protocol with these main events:
+
+* `INTERSEND_CONNECT_REQUEST`: Initial wallet connection request
+* `SIGN_MESSAGE_REQUEST`: Request to sign a message
+* `TRANSACTION_REQUEST`: Request to send a transaction
+* `SWITCH_CHAIN_REQUEST`: Request to switch chain
+* `*_RESPONSE`: Corresponding response events
+
+All sensitive operations (signing, approvals) are handled by your wallet's existing security infrastructure, ensuring a safe and consistent user experience.
+
+### Contact Us
 
 * Email: [hello@intersend.io](mailto\:hello@intersend.io)
 * Telegram: @erturkarda
