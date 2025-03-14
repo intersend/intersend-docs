@@ -7,6 +7,8 @@ export default defineConfig({
     light: 'https://app.intersend.io/favicon.ico',
     dark: 'https://app.intersend.io/favicon.ico',
   },
+  // OG Image configuration with the provided logo URL directly embedded
+  ogImageUrl: 'https://vocs.dev/api/og?logo=https://storage.googleapis.com/external-assets-intersend/logo-square.png&title=Intersend&description=Developer Documentation', 
   sidebar: [
     // {
     //   text: 'Introduction',
