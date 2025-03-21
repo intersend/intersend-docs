@@ -16,14 +16,14 @@ You provide authentication/wallet management infrastructure (e.g Privy, Dynamic)
 - Expand ecosystem reach without additional work
 </Callout>
 
-Turn every app using your SDK into an embeddable component for Intersend-integrated wallets and platforms.
+Turn every app using your SDK into an embeddable component for Interspace-integrated wallets and platforms.
 
 ## Integration Benefits
 
 - **Ecosystem Growth**
-  Client apps become instantly available to all Intersend partner wallets
+  Client apps become instantly available to all Interspace partner wallets
 - **Zero Client Changes**
-  Add Intersend connector at SDK layer - no app modifications needed
+  Add Interspace connector at SDK layer - no app modifications needed
 - **Universal Compatibility**
   Works with any partner wallet - making it easy to integrate apps with a few lines of code
 
@@ -31,28 +31,28 @@ Turn every app using your SDK into an embeddable component for Intersend-integra
 
 ## How It Works
 
-Below is a simplified flow describing how an app (built with your auth SDK) interacts with a user's wallet through Intersend.
+Below is a simplified flow describing how an app (built with your auth SDK) interacts with a user's wallet through Interspace.
 
 ## Example
 
-1. A wallet infrastructure provider (let's call this CoinPace Wallet) uses Intersend SDK to add "App X" into their explore page. *App X is built with your authentication SDK.*
+1. A wallet infrastructure provider (let's call this CoinPace Wallet) uses Interspace SDK to add "App X" into their explore page. *App X is built with your authentication SDK.*
 
 2. Users click App X within CoinPace Wallet's interface. The app loads in an iframe.
 
-3. Your Authentication SDK automatically injects Intersend's connector to App X at initial page load.
+3. Your Authentication SDK automatically injects Interspace's connector to App X at initial page load.
 
-4. Intersend's iframe middleware facilitates sharing user's account with the app and automatically connects to it with SIWE (Sign in with Ethereum)
+4. Interspace's iframe middleware facilitates sharing user's account with the app and automatically connects to it with SIWE (Sign in with Ethereum)
 
 5. When transactions occur:
    1. App X constructs transaction data
-   2. Intersend relays payload to CoinPace Wallet
+   2. Interspace relays payload to CoinPace Wallet
    3. User approves/declines in native wallet UI
    4. Result propagates back to the app
 
 ### End Result
 - The app is fully functional automatically connected to the user's wallet/account
-- Transactions signatures chain switching etc. flow through Intersend's secure layer
+- Transactions signatures chain switching etc. flow through Interspace's secure layer
 
 ## Flow Diagram
 
-![Intersend Sequence Diagram](https://www.mermaidchart.com/raw/3f350c1f-4465-4676-8fea-4088d143e879?theme=light&version=v0.1&format=svg)
+![Interspace Sequence Diagram](https://www.mermaidchart.com/raw/3f350c1f-4465-4676-8fea-4088d143e879?theme=light&version=v0.1&format=svg)

@@ -7,51 +7,51 @@ showSidebar: true
 
 import { Callout } from 'vocs/components'
 
-# Overview - For Apps [Get your app listed on Intersend]
+# Overview - For Apps [Get your app listed on Interspace]
 
 <Callout type="info">
   **This guide is for you if:**
 
 You’re building a dApp and want to:
 
-- Get listed in Intersend’s ecosystem
+- Get listed in Interspace ecosystem
 - Distribute your app and reach crypto users through partner wallets
 </Callout>
 
-Intersend is a non-custodial app store for crypto apps that enables seamless Web3 interactions through a unified experience. The fundamental goal is: **make it simple for your app and your users to connect, sign, and transact**.
+Interspace is a non-custodial app store for crypto apps that enables seamless Web3 interactions through a unified experience. The fundamental goal is: **make it simple for your app and your users to connect, sign, and transact**.
 
-The integration enables seamless communication between your app and Intersend through:
+The integration enables seamless communication between your app and Interspace through:
 
 - **Auto Connection**: Automatically connects user's wallet with your app on page load with SIWE authentication
 - **Message Relay**: Handles transaction signing, message signing, and contract interactions through event listeners
-- **Non-Intrusive**: Only activates when your app is accessed through Intersend, preserving your existing functionality
+- **Non-Intrusive**: Only activates when your app is accessed through Interspace, preserving your existing functionality
 
-Below is a high-level guide for dApps that want to be listed in Intersend and auto-connect with users’ wallets via Intersend.
+Below is a high-level guide for dApps that want to be listed in Interspace and auto-connect with users’ wallets via Interspace.
 
 ## Key Concepts
 
 ### Connectors
 
-A “connector” is a small integration layer that allows Intersend to inject a user’s wallet/account into your dApp. We support multiple connector approaches, including:
+A “connector” is a small integration layer that allows Interspace to inject a user’s wallet/account into your dApp. We support multiple connector approaches, including:
 
-- [For existing Safe apps](https://docs.intersend.io/apps/safe)
-- [For apps that are using Privy](https://docs.intersend.io/apps/privy)
-- [For apps that are using Dynamic](https://docs.intersend.io/apps/dynamic)
+- [For existing Safe apps](https://docs.interspace.io/apps/safe)
+- [For apps that are using Privy](https://docs.interspace.io/apps/privy)
+- [For apps that are using Dynamic](https://docs.interspace.io/apps/dynamic)
 
 ### iFrame & Event Listeners
 
-Intersend loads your app within an iframe, and sends/ expects events to:
+Interspace loads your app within an iframe, and sends/ expects events to:
 
 1. **Auto-connect** the user’s wallet/account
 2. **Relay transactions** for user signatures
 3. **Share** signed data, chain switches, and transaction confirmations back to your dApp
 
-Because of this, you need to **whitelist Intersend’s domain** so your site can be embedded in an iframe and to allow cross-domain communication.
+Because of this, you need to **whitelist Interspace's domain** so your site can be embedded in an iframe and to allow cross-domain communication.
 
 ## How It Works
 
 
-![Intersend Sequence Diagram](https://www.mermaidchart.com/raw/3f350c1f-4465-4676-8fea-4088d143e879?theme=light&version=v0.1&format=svg)
+![Interspace Sequence Diagram](https://www.mermaidchart.com/raw/3f350c1f-4465-4676-8fea-4088d143e879?theme=light&version=v0.1&format=svg)
 
 
 ### Get Listed Once integrated, contact us for review and approval:
@@ -59,4 +59,4 @@ Because of this, you need to **whitelist Intersend’s domain** so your site can
 - Email: hello@intersend.io
 - Telegram: @erturkarda
 
-We’ll add your project to the Intersend App Store so users can seamlessly discover and use your app.
+We’ll add your project to the Interspace App Store so users can seamlessly discover and use your app.

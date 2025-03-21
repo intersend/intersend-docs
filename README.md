@@ -1,6 +1,6 @@
-# Intersend Documentation
+# Interspace Documentation
 
-This repository contains the official documentation for Intersend, a comprehensive platform providing powerful tools for building web3 applications and managing blockchain interactions.
+This repository contains the official documentation for Interspace, a comprehensive platform providing powerful tools for building web3 applications and managing blockchain interactions.
 
 ## Documentation Website
 
@@ -45,6 +45,6 @@ If you'd like to contribute to the documentation, please follow these steps:
 
 ## Resources
 
-- [Intersend Website](https://intersend.io)
-- [Documentation](https://docs.intersend.io)
+- [Interspace Website](https://interspace.fi)
+- [Documentation](https://docs.interspace.fi)
 - [GitHub](https://github.com/intersend)

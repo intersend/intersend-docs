@@ -1,11 +1,11 @@
 ---
 title: 'Dynamic Integration'
-description: 'Add your Dynamic-powered app to Intersend.'
+description: 'Add your Dynamic-powered app to Interspace.'
 layout: docs
 showSidebar: true
 ---
 
-# Dynamic Integration [Get your app listed on Intersend]
+# Dynamic Integration [Get your app listed on Interspace]
 
 ## Prerequisite
 
@@ -13,9 +13,9 @@ showSidebar: true
 
 ## Integration Steps
 
-### 1. Install Intersend EVM Wallet Connector
+### 1. Install Interspace EVM Wallet Connector
 
-Install the Dynamic Intersend EVM wallet connector with the following command:
+Install the Dynamic Interspace EVM wallet connector with the following command:
 
 For Dynamic v3:
 ```bash
@@ -31,7 +31,7 @@ npm install @dynamic-labs-connectors/intersend-evm@4.0.0
 yarn add @dynamic-labs-connectors/intersend-evm@4.0.0
 ```
 
-### 2. Import the Intersend Connector
+### 2. Import the Interspace Connector
 
 In your project import the IntersendEvmWalletConnectors:
 
@@ -53,18 +53,18 @@ Add the Intersend EVM wallet connector to your DynamicContextProvider:
 </DynamicContextProvider>
 ```
 
-### 4. Whitelist Intersend Domain
+### 4. Whitelist Interspace Domain
 
-Add Intersend domains to your Dynamic dashboard's allowed origins:
-- https://app.intersend.io
-- https://intersend.io
+Add Interspace domains to your Dynamic dashboard's allowed origins:
+- https://*.interspace.fi
+- https://interspace.fi
 
 [Configure Allowed Origins →](https://docs.dynamic.xyz/developer-dashboard/security#adding-an-origin)
 
-### 5. Verify App Behavior Inside Intersend
+### 5. Verify App Behavior Inside Interspace
 
-1. **Open [Sandbox](https://app.intersend.io/apps/sandbox)** and paste your web app's URL into the address bar of the Intersend browser.
-2. **Auto-connect** should kick in; Intersend will inject the user's wallet data into your app.
+1. **Open [Sandbox](https://interspace.fi/apps/sandbox)** and paste your web app's URL into the address bar of the Interspace browser.
+2. **Auto-connect** should kick in; Interspace will inject the user's wallet data into your app.
 3. **Test transaction or signing flows** to confirm everything relays properly.
 
 ### 6. Get Listed
@@ -75,4 +75,4 @@ Once integrated submit your app for review:
 
 ## Need Help?
 
-- [Contact Intersend Support](mailto:hello@intersend.io)
+- [Contact Interspace Support](mailto:hello@intersend.io)

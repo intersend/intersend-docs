@@ -1,11 +1,11 @@
 ---
 title: 'Privy Integration'
-description: 'Add your Privy-powered app to Intersend.'
+description: 'Add your Privy-powered app to Interspace.'
 layout: docs
 showSidebar: true
 ---
 
-# Privy Integration [Get your app listed on Intersend]
+# Privy Integration [Get your app listed on Interspace]
 
 ## Prerequisite
 
@@ -17,14 +17,14 @@ showSidebar: true
 
 Add these files to your project:
 
-#### intersend-connector.js
+#### interspace-connector.js
 
 ```ts
 /**
- * IntersendProvider class implements a Web3 provider interface for iframe-embedded apps
+ * InterspaceProvider class implements a Web3 provider interface for iframe-embedded apps
  * Handles wallet connection transactions and messaging between parent and child frames
  */
-class IntersendProvider {
+class InterspaceProvider {
   constructor() {
     // Initialize provider state
     this._state = {
@@ -36,12 +36,12 @@ class IntersendProvider {
 
     // Provider identification flags
     this.isMetaMask = false;
-    this.isIntersend = true;
+    this.isInterspace = true;
     this.isSafe = true;
     this.isPortability = true;
 
     // Allowed domains for security
-    this.allowedDomains = ['app.intersend.io', 'intersend.io', 'localhost'];
+    this.allowedDomains = ['app.intersend.io', 'intersend.io', 'app.interspace.fi', 'interspace.fi', 'localhost'];
 
     // Event handlers registry
     this._eventHandlers = {
@@ -81,7 +81,7 @@ class IntersendProvider {
    */
   _generateRequestId() {
     this._state.lastRequestId++;
-    return `intersend_${Date.now()}_${this._state.lastRequestId}`;
+    return `interspace_${Date.now()}_${this._state.lastRequestId}`;
   }
 
   /**
@@ -166,7 +166,7 @@ class IntersendProvider {
    */
    async request({ method, params }) {
     if (!this._isIframe()) {
-      throw new Error('IntersendProvider is only available within iframes');
+      throw new Error('InterspaceProvider is only available within iframes');
     }
 
     console.debug('Provider request:', method, params);
@@ -374,10 +374,10 @@ class IntersendProvider {
  * EIP-6963 provider info
  */
 const PROVIDER_INFO = {
-  uuid: 'intersend-provider-v1',
-  name: 'Intersend',
+  uuid: 'interspace-provider-v1',
+  name: 'Interspace',
   icon: 'data:image/svg+xml;base64...', // Add your base64 encoded icon
-  rdns: 'com.intersend'
+  rdns: 'com.interspace'
 };
 
 /**
@@ -412,7 +412,7 @@ function announceProvider() {
 }
 
 // Create provider instance
-const provider = new IntersendProvider();
+const provider = new InterspaceProvider();
 
 // Inject provider and announce
 if (typeof window !== 'undefined') {
@@ -432,17 +432,17 @@ if (typeof window !== 'undefined') {
 export { provider, announceProvider };
 ```
 
-#### useIntersendAutoConnect.js
+#### useInterspaceAutoConnect.js
 
 ```ts
-// useIntersendAutoConnect.js
+// useInterspaceAutoConnect.js
 import { useEffect, useState, useCallback } from 'react';
 import { useWallets, usePrivy } from '@privy-io/react-auth';
 
 /**
- * Hook for handling Intersend wallet auto-connection
+ * Hook for handling Interspace wallet auto-connection
  */
-function useIntersendAutoConnect() {
+function useInterspaceAutoConnect() {
   const { wallets, ready } = useWallets();
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState(null);
@@ -495,12 +495,12 @@ function useIntersendAutoConnect() {
 }
 
 /**
- * Component that handles auto-connection of Intersend wallet
+ * Component that handles auto-connection of Interspace wallet
  * Usage: Just include this component in your app's provider wrapper
  * <AutoConnectHandler />
  */
 export function AutoConnectHandler() {
-  const { isConnecting, error } = useIntersendAutoConnect();
+  const { isConnecting, error } = useInterspaceAutoConnect();
 
   useEffect(() => {
     if (error) {
@@ -515,7 +515,7 @@ export function AutoConnectHandler() {
 }
 
 // Export both the hook and the component
-export { useIntersendAutoConnect };
+export { useInterspaceAutoConnect };
 
 // Default export is the component for easier imports
 export default AutoConnectHandler;
@@ -526,14 +526,14 @@ export default AutoConnectHandler;
 Import and set up the connector and auto-connect handler in your app's provider configuration:
 
 ```tsx
-import './intersend-connector'
-import { AutoConnectHandler } from './hooks/useIntersendAutoConnect'
+import './interspace-connector'
+import { AutoConnectHandler } from './hooks/useInterspaceAutoConnect'
 
 export default function Providers({ children }) {
   return (
     <PrivyProvider appId={privyAppId} config={...}>
       <WagmiProvider config={wagmiConfig}>
-        {/* AutoConnectHandler manages wallet connection when app is loaded in Intersend */}
+        {/* AutoConnectHandler manages wallet connection when app is loaded in Interspace */}
         <AutoConnectHandler />
         {children}
       </WagmiProvider>
@@ -542,18 +542,18 @@ export default function Providers({ children }) {
 }
 ```
 
-### 3. Whitelist Intersend Domain
+### 3. Whitelist Interspace Domain
 
-Add Intersend domains to your Privy dashboard's allowed origins:
-- https://app.intersend.io
-- https://intersend.io
+Add Interspace domains to your Privy dashboard's allowed origins:
+- https://*.interspace.fi
+- https://interspace.fi
 
 [Configure Allowed Origins →](https://docs.privy.io/guide/react/configuration/allowed-domains)
 
-### 4. Verify App Behavior Inside Intersend
+### 4. Verify App Behavior Inside Interspace
 
-1. **Open [Sandbox](https://app.intersend.io/apps/sandbox)** and paste your web app's URL into the address bar of the Intersend browser.
-2. **Auto-connect** should kick in; Intersend will inject the user's wallet data into your app.
+1. **Open [Sandbox](https://interspace.io/apps/sandbox)** and paste your web app's URL into the address bar of the Interspace browser.
+2. **Auto-connect** should kick in; Interspace will inject the user's wallet data into your app.
 3. **Test transaction or signing flows** to confirm everything relays properly.
 
 ### 5. Get Listed
@@ -564,4 +564,4 @@ Once integrated submit your app for review:
 
 ## Need Help?
 
-- [Contact Intersend Support](mailto:hello@intersend.io)
+- [Contact Interspace Support](mailto:hello@intersend.io)

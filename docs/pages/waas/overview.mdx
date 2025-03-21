@@ -14,12 +14,12 @@ import { Callout } from 'vocs/components'
 You provide wallet infrastructure (MPC, custodial, non-custodial) (e.g UniversalX, MetaMask, Phantom) and want to:
 - Offer curated dApps without maintaining it yourself
 - Keep full control over security and UX
-- Automatically integrate new apps added to Intersend
+- Automatically integrate new apps added to Interspace
 </Callout>
 
 
 <Callout type="tip">
-See a demo of an Intersend-powered wallet:
+See a demo of an Interspace-powered wallet:
 
 <iframe
   width="560"
@@ -37,9 +37,9 @@ See a demo of an Intersend-powered wallet:
 
 
 
-Turn your wallet into a Web3 gateway using Intersend's universal connector. Embed dApps directly into your interface while maintaining full control over security and user experience.
+Turn your wallet into a Web3 gateway using Interspace's universal connector. Embed dApps directly into your interface while maintaining full control over security and user experience.
 
-## Why Intersend?
+## Why Interspace?
 
 - **Zero Maintenance**
   New apps become automatically available to your users - no integration work required
@@ -53,9 +53,9 @@ Turn your wallet into a Web3 gateway using Intersend's universal connector. Embe
 
 ## How It Works
 
-Under the hood, Intersend provides an iframe-based connector that mediates communication between your wallet and apps available on Intersend. Your wallet remains in control of signing, transaction approvals, and chain selection while Intersend relays messages securely via `postMessage`.
+Under the hood, Interspace provides an iframe-based connector that mediates communication between your wallet and apps available on Intersend. Your wallet remains in control of signing, transaction approvals, and chain selection while Interspace relays messages securely via `postMessage`.
 
-![Intersend Sequence Diagram](https://www.mermaidchart.com/raw/3f350c1f-4465-4676-8fea-4088d143e879?theme=light&version=v0.1&format=svg)
+![Interspace Sequence Diagram](https://www.mermaidchart.com/raw/3f350c1f-4465-4676-8fea-4088d143e879?theme=light&version=v0.1&format=svg)
 
 
 ## Security Architecture
@@ -63,13 +63,13 @@ Under the hood, Intersend provides an iframe-based connector that mediates commu
 The SDK implements a secure messaging protocol between the embedded app and your wallet:
 
 - **Isolated Iframes:**
-  All third-party dApps are sandboxed within an iframe managed by Intersend. This prevents unauthorized access to your code or your users' private keys.
+  All third-party dApps are sandboxed within an iframe managed by Interspace. This prevents unauthorized access to your code or your users' private keys.
 
 - **No Private Key Exposure:**
   Any signature or transaction request is forwarded to your wallet's internal signing logic. Keys never leave your environment.
 
 - **Origin Validation:**
-  The Intersend SDK verifies the origin of incoming messages. Suspicious or unknown sources are ignored.
+  The Interspace SDK verifies the origin of incoming messages. Suspicious or unknown sources are ignored.
 
 ## Contact Us
 

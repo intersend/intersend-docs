@@ -1,12 +1,12 @@
 ---
 title: 'Safe Integration'
-description: 'Add your Safe App to Intersend.'
+description: 'Add your Safe App to Interspace.'
 layout: docs
 showSidebar: true
 ---
 import { Callout } from 'vocs/components'
 
-# Safe Integration [Get your app listed on Intersend]
+# Safe Integration [Get your app listed on Interspace]
 
 <Callout type="info">
   **This guide is for you if:**
@@ -18,7 +18,7 @@ You’re building a dApp and want to:
 </Callout>
 ## Integration Steps (Wagmi + Safe Example)
 
-Below is the most common scenario: **you already use Wagmi** and need to ensure the Safe Connector is present so Intersend can auto-connect. If your app relies on Privy or Dynamic for auth, please see those guides.
+Below is the most common scenario: **you already use Wagmi** and need to ensure the Safe Connector is present so Interspace can auto-connect. If your app relies on Privy or Dynamic for auth, please see those guides.
 
 ### 1. Add (or Confirm) Safe Connector
 
@@ -44,22 +44,22 @@ export const config = createConfig({
 })
 ```
 
-### 2. Whitelist Intersend Domain
+### 2. Whitelist Interspace Domain
 
-Since Intersend loads your dApp in an iframe and communicates via postMessage, you must allow the following domains:
+Since Interspace loads your dApp in an iframe and communicates via postMessage, you must allow the following domains:
 
 Required domains:
 
-- `intersend.io`
-- `*.intersend.io`
+- `interspace.fi`
+- `*.interspace.fi`
 
 If you’re using a third-party authentication provider, ensure they also whitelist these domains to enable secure cross-domain communication.
 
 
-### 3. Verify App Behavior Inside Intersend
+### 3. Verify App Behavior Inside Interspace
 
-1. **Open [Sandbox](https://app.intersend.io/apps/sandbox)** and paste your web app’s URL into the address bar of the Intersend browser.
-2. **Auto-connect** should kick in; Intersend will inject the user’s wallet data into your app.
+1. **Open [Sandbox](https://interspace.fi/apps/sandbox)** and paste your web app’s URL into the address bar of the Interspace browser.
+2. **Auto-connect** should kick in; Interspace will inject the user’s wallet data into your app.
 3. **Test transaction or signing flows** to confirm everything relays properly.
 
 ### 4. Get Listed
@@ -70,4 +70,4 @@ Once integrated, submit your app for review:
 
 ## Need Help?
 
-- [Contact Intersend Support](mailto:hello@intersend.io)
+- [Contact Interspace Support](mailto:hello@intersend.io)

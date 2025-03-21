@@ -1,6 +1,6 @@
 ---
 title: 'Quickstart'
-description: 'Get started with Intersend integration for wallets'
+description: 'Get started with Interspace integration for wallets'
 layout: docs
 showSidebar: true
 
@@ -12,7 +12,7 @@ import { Callout } from 'vocs/components'
 
 <Callout type="tip">
   See our [complete wallet implementation on Github](https://github.com/intersend/demo-wallet) 
-  for a production-ready example of integrating Intersend apps into a wallet.
+  for a production-ready example of integrating Interspace apps into a wallet.
 </Callout>
 
 
@@ -41,7 +41,7 @@ function App() {
 
 ## 3. Implement Message Handlers
 
-Your wallet needs to listen for events from Intersend—such as requests to connect, sign a message, or approve a transaction.
+Your wallet needs to listen for events from Interspace—such as requests to connect, sign a message, or approve a transaction.
 
 Create these two hooks to handle communication between your wallet and embedded dApps:
 
@@ -68,10 +68,10 @@ export function useMessageHandler({ walletAddress, chainId }: MessageHandlerConf
 
       try {
         switch (type) {
-          case 'INTERSEND_CONNECT_REQUEST':
+          case 'INTERSPACE_CONNECT_REQUEST':
             sendMessageToIFrame(
               {
-                type: 'INTERSEND_CONNECT_RESPONSE',
+                type: 'INTERSPACE_CONNECT_RESPONSE',
                 payload: {
                   address: walletAddress,
                   chainId,
@@ -123,7 +123,7 @@ export function usePortHandler() {
 
 ## 4. Create dApp Store Container
 
-Intersend can serve as your "dApp store" aggregator. You can display all available apps, letting users pick which to launch. For instance:
+Interspace can serve as your "dApp store" aggregator. You can display all available apps, letting users pick which to launch. For instance:
 
 ```typescript
 import { Port, usePortableApps } from 'universal-portability';
@@ -166,7 +166,7 @@ function AppContainer({ app }) {
 
   return (
     <Port
-      src={`https://app.intersend.io/apps/${app.slug}`}
+      src={`https://interspace.fi/apps/${app.slug}`}
       address={address}
       rpcUrl={rpcURL}
       height="400px"
@@ -180,7 +180,7 @@ function AppContainer({ app }) {
 
 The SDK uses a secure postMessage protocol with these main events:
 
-- `INTERSEND_CONNECT_REQUEST`: Initial wallet connection request
+- `INTERSPACE_CONNECT_REQUEST`: Initial wallet connection request
 - `SIGN_MESSAGE_REQUEST`: Request to sign a message
 - `TRANSACTION_REQUEST`: Request to send a transaction
 - `SWITCH_CHAIN_REQUEST`: Request to switch chain

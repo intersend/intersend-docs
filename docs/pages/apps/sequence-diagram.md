@@ -1,6 +1,6 @@
 ---
-title: 'Intersend Sequence Diagram'
-description: 'Sequence diagram showing the interaction flow between User, Wallet App, Intersend, and Your App'
+title: 'Interspace Sequence Diagram'
+description: 'Sequence diagram showing the interaction flow between User, Wallet App, Interspace, and Your App'
 layout: docs
 showSidebar: true
 ---

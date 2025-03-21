@@ -1,11 +1,11 @@
 import { defineConfig } from 'vocs'
 
 export default defineConfig({
-  title: 'Intersend',
-  description: 'Documentation for Intersend',
+  title: 'Interspace',
+  description: 'Documentation for Interspace',
   logoUrl: {
-    light: 'https://app.intersend.io/favicon.ico',
-    dark: 'https://app.intersend.io/favicon.ico',
+    light: 'https://interspace.fi/favicon.ico',
+    dark: 'https://interspace.fi/favicon.ico',
   },
   // OG Image configuration with the provided logo URL directly embedded
   ogImageUrl: 'https://vocs.dev/api/og?logo=https://storage.googleapis.com/external-assets-intersend/Emblem%20(1).png&title=Intersend&description=Developer Documentation', 
@@ -56,7 +56,7 @@ export default defineConfig({
     },
     {
       text: 'Dashboard →',
-      link: 'https://app.intersend.io'
+      link: 'https://interspace.fi'
     }
   ]
 })
