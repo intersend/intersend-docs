@@ -1,0 +1,362 @@
+---
+title: 'Quickstart - React Native'
+description: 'Get started with Interspace integration for React Native wallets'
+layout: docs
+showSidebar: true
+
+---
+
+import { Callout } from 'vocs/components'
+
+# Quickstart - For React Native Wallets [Integrate apps into a mobile wallet]
+
+## 1. Install the SDK
+
+```bash
+# Install the SDK
+npm install universal-portability
+
+# Install required peer dependency
+npm install react-native-webview
+```
+
+## 2. Set Up Provider
+
+Wrap your application with the UniversalPortabilityProvider:
+
+```javascript
+import React from 'react';
+import { UniversalPortabilityProvider } from 'universal-portability';
+import YourWalletProvider from './your-wallet-provider';
+
+function App() {
+  return (
+    <YourWalletProvider>
+      <UniversalPortabilityProvider>
+        {/* Your wallet app */}
+      </UniversalPortabilityProvider>
+    </YourWalletProvider>
+  );
+}
+
+export default App;
+```
+
+## 3. Create a Port Handler Hook
+
+Your wallet needs a hook to handle messages from embedded dApps to process requests like connecting, signing messages, or approving transactions.
+
+```typescript
+// src/hooks/usePortHandler.js
+import { useRef } from 'react';
+import { usePortHandler as useUniversalPortHandler } from 'universal-portability';
+
+export function useWalletPortHandler() {
+  // In a real wallet app, you would get these values from your wallet integration
+  const address = '0x1234567890abcdef1234567890abcdef12345678'; // Your wallet address
+  const chainId = 1; // Ethereum Mainnet
+  const webViewRef = useRef(null);
+  
+  // The SDK handles message communication automatically
+  const portHandler = useUniversalPortHandler({
+    address,
+    chainId,
+    // In a real implementation, you would pass your wallet's signer
+    signer: {
+      signMessage: async (message) => {
+        console.log('Signing message:', message);
+        // Your wallet's signing implementation
+        return '0xsignature'; 
+      },
+      sendTransaction: async (tx) => {
+        console.log('Sending transaction:', tx);
+        // Your wallet's transaction implementation
+        return '0xtxhash';
+      }
+    }
+  });
+  
+  return {
+    webViewRef,
+    handleWebViewMessage: portHandler.handleMessage,
+    isReady: Boolean(address && chainId),
+    address,
+    chainId,
+    rpcUrl: 'https://ethereum.publicnode.com' // Your RPC endpoint
+  };
+}
+```
+
+## 4. Create a dApp View Component
+
+Create a component that will display and interact with embedded dApps:
+
+```typescript
+// src/components/DAppView.jsx
+import React from 'react';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { Port } from 'universal-portability';
+import { useWalletPortHandler } from '../hooks/usePortHandler';
+
+interface DAppViewProps {
+  appUrl: string;
+}
+
+export function DAppView({ appUrl }: DAppViewProps) {
+  const { webViewRef, handleWebViewMessage, isReady, address, chainId, rpcUrl } = useWalletPortHandler();
+  
+  if (!isReady) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#037DD6" />
+        <Text style={styles.loadingText}>Connecting wallet...</Text>
+      </View>
+    );
+  }
+  
+  return (
+    <View style={styles.container}>
+      <Port
+        ref={webViewRef}
+        source={{ uri: appUrl }}
+        address={address}
+        chainId={chainId}
+        rpcUrl={rpcUrl}
+        onMessage={handleWebViewMessage}
+        style={styles.webview}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  webview: {
+    flex: 1,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  loadingText: {
+    marginTop: 10,
+    color: '#037DD6',
+    fontSize: 16,
+  }
+});
+```
+
+## 5. Create a Hook for App Discovery
+
+```typescript
+// src/hooks/usePortableApps.ts
+import { usePortableApps } from 'universal-portability';
+
+// Re-export the hook directly from the SDK
+export { usePortableApps };
+```
+
+## 6. Create a Screen to Display dApps
+
+```typescript
+// src/screens/AppStoreScreen.tsx
+import React from 'react';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  FlatList, 
+  TouchableOpacity, 
+  Image 
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { usePortableApps } from 'universal-portability';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+export default function AppStoreScreen() {
+  const { apps, loading, error } = usePortableApps();
+  const navigation = useNavigation();
+  
+  if (loading) {
+    return <Text>Loading apps...</Text>;
+  }
+  
+  if (error) {
+    return <Text>Error loading apps: {error.message}</Text>;
+  }
+  
+  const handleAppPress = (app) => {
+    navigation.navigate('App', { 
+      appUrl: `https://interspace.fi/apps/${app.slug}` 
+    });
+  };
+  
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>dApp Store</Text>
+      
+      <FlatList
+        data={apps}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <TouchableOpacity 
+            style={styles.appCard}
+            onPress={() => handleAppPress(item)}
+          >
+            <Image source={{ uri: item.logo }} style={styles.appLogo} />
+            <Text style={styles.appName}>{item.name}</Text>
+            <Text style={styles.appCategory}>{item.category.join(', ')}</Text>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  appCard: {
+    flex: 1,
+    margin: 8,
+    padding: 16,
+    borderRadius: 8,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+    alignItems: 'center',
+  },
+  appLogo: {
+    width: 64,
+    height: 64,
+    borderRadius: 12,
+    marginBottom: 8,
+  },
+  appName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  appCategory: {
+    fontSize: 12,
+    color: '#666',
+    textAlign: 'center',
+  },
+});
+```
+
+## 7. Create a Screen to Display a Selected dApp
+
+```typescript
+// src/screens/AppScreen.tsx
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { DAppView } from '../components/DAppView';
+
+export default function AppScreen({ route }) {
+  const { appUrl } = route.params;
+  
+  return (
+    <SafeAreaView style={styles.container}>
+      <DAppView appUrl={appUrl} />
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  }
+});
+```
+
+## Message Protocol
+
+The SDK's built-in messaging system handles communication between your wallet and embedded dApps automatically. The key message types include:
+
+- `CONNECT_REQUEST`: Initial wallet connection request
+- `SIGN_MESSAGE`: Request to sign a message
+- `TRANSACTION_REQUEST`: Request to send a transaction
+- `SWITCH_CHAIN`: Request to switch blockchain networks
+
+The SDK's Port component and handleMessage function manage these messages for you, requiring minimal custom code.
+
+## Key Differences from Web Implementation
+
+When using the Universal Portability SDK in React Native:
+
+- **WebView vs iFrame**: React Native uses WebView instead of iFrames
+- **Reference Handling**: You must pass the WebView ref to the Port component
+- **Message Handling**: Use onMessage prop and the WebView event system instead of window.addEventListener
+- **Navigation**: Typically using React Navigation or similar for screen transitions
+
+## Troubleshooting
+
+### Import Resolution Issues
+
+If you see `Unable to resolve module 'universal-portability/native'`:
+
+```javascript
+// Best option: Use main import
+import { Component } from 'universal-portability';
+
+// Alternative: Use direct path
+import { Component } from 'universal-portability/dist/react-native';
+```
+
+Or add to metro.config.js:
+
+```javascript
+module.exports = {
+  resolver: {
+    extraNodeModules: {
+      'universal-portability/native': require.resolve('universal-portability/dist/native')
+    }
+  }
+};
+```
+
+### Base64 Errors (Hermes Engine)
+
+If you see `Property 'atob' doesn't exist`:
+
+```javascript
+// Either use our auto-detecting imports
+import { usePortableApps } from 'universal-portability';
+
+// Or add polyfills at your app's entry point
+import { decode as atob, encode as btoa } from 'base-64';
+global.atob = global.atob || atob;
+global.btoa = global.btoa || btoa;
+```
+
+### WebView Communication
+
+If messages aren't being received:
+
+- Ensure `webViewRef` is passed to the Port component
+- Verify `onMessage={handleWebViewMessage}` is connected
+- Check data parsing: `const data = JSON.parse(event.nativeEvent.data);`
+
+## Contact Us
+
+- Email: hello@intersend.io

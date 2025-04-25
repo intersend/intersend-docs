@@ -33,7 +33,8 @@ export default defineConfig({
       collapsed: false,
       items: [
         { text: 'Overview', link: '/waas/overview' },
-        { text: 'Quickstart', link: '/waas/quickstart' },
+        { text: 'Quickstart - React', link: '/waas/quickstart' },
+        { text: 'Quickstart - React Native', link: '/waas/react-native' },
         { text: 'Demo', link: '/waas/demo' }
       ]
     },
